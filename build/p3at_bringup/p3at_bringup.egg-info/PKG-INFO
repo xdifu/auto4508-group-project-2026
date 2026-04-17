@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: p3at-bringup
+Version: 0.1.0
+Summary: Bringup and mission tooling for AUTO4508 Part 1/Part 2.
+Maintainer: god
+Maintainer-email: god@example.com
+License: Apache-2.0

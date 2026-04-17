@@ -1,0 +1,10 @@
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/uninstall.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/p3at_nav_plugins_uninstall.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/p3at_nav_plugins.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/test.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/edit_cache.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/rebuild_cache.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/list_install_components.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/install.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/install/local.dir
+/home/god/auto4508/project/build/p3at_nav_plugins/CMakeFiles/install/strip.dir

@@ -1,0 +1,9 @@
+[console_scripts]
+clock_sanitizer = p3at_bringup.clock_sanitizer:main
+fake_gps_node = p3at_bringup.fake_gps_node:main
+gps_health_monitor = p3at_bringup.gps_health_monitor:main
+joint_state_sanitizer = p3at_bringup.joint_state_sanitizer:main
+mission_manager = p3at_bringup.mission_manager:main
+mission_orchestrator = p3at_bringup.mission_orchestrator:main
+odom_sanitizer = p3at_bringup.odom_sanitizer:main
+path_recorder = p3at_bringup.path_recorder:main

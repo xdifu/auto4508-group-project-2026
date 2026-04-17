@@ -1,0 +1,63 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found angles: 1.16.1 (/opt/ros/jazzy/share/angles/cmake)
+-- Found geometry_msgs: 5.3.6 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found nav2_core: 1.3.10 (/opt/ros/jazzy/share/nav2_core/cmake)
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0") 
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Configuring done (6.7s)
+-- Generating done (0.2s)
+-- Build files have been written to: /home/god/auto4508/project/build/p3at_nav_plugins
+[ 50%] [32mBuilding CXX object CMakeFiles/p3at_nav_plugins.dir/src/p3at_controller.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library libp3at_nav_plugins.so[0m
+[100%] Built target p3at_nav_plugins
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins//p3at_nav_plugins.xml
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/lib/libp3at_nav_plugins.so
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/include/p3at_nav_plugins/p3at_controller.hpp
+-- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/p3at_nav_plugins.xml
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/library_path.sh
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/library_path.dsv
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/package_run_dependencies/p3at_nav_plugins
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/parent_prefix_path/p3at_nav_plugins
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/ament_prefix_path.sh
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/ament_prefix_path.dsv
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/path.sh
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/path.dsv
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.bash
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.sh
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.zsh
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.dsv
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.dsv
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/packages/p3at_nav_plugins
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/nav2_core__pluginlib__plugin/p3at_nav_plugins
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/ament_cmake_export_libraries-extras.cmake
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/p3at_nav_pluginsConfig.cmake
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/p3at_nav_pluginsConfig-version.cmake
+-- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.xml

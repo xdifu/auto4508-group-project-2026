@@ -1,0 +1,32 @@
+[0.016s] Invoking command in '/home/god/auto4508/project/build/p3at_nav_plugins': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --build /home/god/auto4508/project/build/p3at_nav_plugins -- -j16 -l16
+[0.114s] [100%] Built target p3at_nav_plugins
+[0.136s] Invoked command in '/home/god/auto4508/project/build/p3at_nav_plugins' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --build /home/god/auto4508/project/build/p3at_nav_plugins -- -j16 -l16
+[0.137s] Invoking command in '/home/god/auto4508/project/build/p3at_nav_plugins': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --install /home/god/auto4508/project/build/p3at_nav_plugins
+[0.149s] -- Install configuration: ""
+[0.150s] -- Execute custom install script
+[0.150s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins//p3at_nav_plugins.xml
+[0.151s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/lib/libp3at_nav_plugins.so
+[0.151s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/include/p3at_nav_plugins/p3at_controller.hpp
+[0.152s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/p3at_nav_plugins.xml
+[0.152s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/library_path.sh
+[0.152s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/library_path.dsv
+[0.153s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/package_run_dependencies/p3at_nav_plugins
+[0.153s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/parent_prefix_path/p3at_nav_plugins
+[0.153s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/ament_prefix_path.sh
+[0.153s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/ament_prefix_path.dsv
+[0.154s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/path.sh
+[0.154s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/environment/path.dsv
+[0.154s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.bash
+[0.154s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.sh
+[0.154s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.zsh
+[0.155s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/local_setup.dsv
+[0.155s] -- Symlinking: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.dsv
+[0.167s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/packages/p3at_nav_plugins
+[0.168s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/ament_index/resource_index/nav2_core__pluginlib__plugin/p3at_nav_plugins
+[0.168s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.168s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/ament_cmake_export_libraries-extras.cmake
+[0.168s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.168s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/p3at_nav_pluginsConfig.cmake
+[0.169s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/cmake/p3at_nav_pluginsConfig-version.cmake
+[0.169s] -- Up-to-date symlink: /home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.xml
+[0.173s] Invoked command in '/home/god/auto4508/project/build/p3at_nav_plugins' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --install /home/god/auto4508/project/build/p3at_nav_plugins

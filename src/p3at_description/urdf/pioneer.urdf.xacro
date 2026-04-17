@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<robot name="pioneer3at_body" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="wheel_radius" value="0.111"/>
+  <xacro:property name="wheel_length" value="0.075"/>
+  <xacro:property name="wheel_separation" value="0.394"/>
+  <xacro:property name="wheel_damping" value="0.7"/>
+  <xacro:property name="odom_publish_frequency" value="20.0"/>
+
+  <link name="base_link">
+    <inertial>
+      <mass value="20.0"/>
+      <origin xyz="0 0 0.177"/>
+      <inertia ixx="0.3338" ixy="0.0" ixz="0.0" iyy="0.4783" iyz="0.0" izz="0.3338"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.177"/>
+      <geometry>
+        <box size="0.52 0.44 0.22"/>
+      </geometry>
+      <material name="ChassisRed">
+        <color rgba="1.0 0.0 0.75 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.177"/>
+      <geometry>
+        <box size="0.52 0.44 0.22"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.043 0 0.254"/>
+      <geometry>
+        <box size="0.22 0.22 0.04"/>
+      </geometry>
+      <material name="TopBlack">
+        <color rgba="1.0 0.9 0.1 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.043 0 0.254"/>
+      <geometry>
+        <box size="0.20 0.20 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:macro name="wheel_module" params="prefix axle_x axle_y hub_y hubcap_mesh">
+    <link name="p3at_${prefix}_axle">
+      <inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+        <material name="AxleGrey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="base_${prefix}_axle_joint" type="fixed">
+      <origin xyz="${axle_x} ${axle_y} 0.111" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="p3at_${prefix}_axle"/>
+    </joint>
+
+    <link name="p3at_${prefix}_hub">
+      <inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.028" length="0.025"/>
+        </geometry>
+        <material name="HubcapYellow">
+          <color rgba="1.0 0.811 0.151 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <box size="0.03 0.03 0.03"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="base_${prefix}_hub_joint" type="fixed">
+      <origin xyz="0 ${hub_y} 0" rpy="0 0 0"/>
+      <parent link="p3at_${prefix}_axle"/>
+      <child link="p3at_${prefix}_hub"/>
+    </joint>
+
+    <link name="p3at_${prefix}_wheel">
+      <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.012411765597" ixy="0" ixz="0" iyy="0.015218160428" iyz="0" izz="0.011763977943"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="-1.57079635 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="WheelBlack">
+          <color rgba="0.117 0.117 0.117 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="-1.57079635 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="p3at_${prefix}_wheel_joint" type="continuous">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="p3at_${prefix}_hub"/>
+      <child link="p3at_${prefix}_wheel"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="100" velocity="100"/>
+      <dynamics damping="${wheel_damping}"/>
+    </joint>
+
+    <gazebo reference="p3at_${prefix}_wheel">
+      <kp>10000000.0</kp>
+      <kd>100.0</kd>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:wheel_module prefix="front_left" axle_x="0.135" axle_y="0.156" hub_y="0.041" hubcap_mesh="left_hubcap.dae"/>
+  <xacro:wheel_module prefix="front_right" axle_x="0.135" axle_y="-0.156" hub_y="-0.041" hubcap_mesh="right_hubcap.dae"/>
+  <xacro:wheel_module prefix="back_left" axle_x="-0.135" axle_y="0.156" hub_y="0.041" hubcap_mesh="left_hubcap.dae"/>
+  <xacro:wheel_module prefix="back_right" axle_x="-0.135" axle_y="-0.156" hub_y="-0.041" hubcap_mesh="right_hubcap.dae"/>
+
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_frame"/>
+    <origin xyz="0.2 0 0.281" rpy="0 0 0"/>
+  </joint>
+
+  <link name="laser_frame">
+    <inertial>
+      <mass value="1e-5"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.035"/>
+      </geometry>
+      <material name="LaserGrey">
+        <color rgba="0.75 0.75 0.75 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="cam_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="cam_frame"/>
+    <origin xyz="0.24 0 0.261" rpy="0 0 0"/>
+  </joint>
+
+  <link name="cam_frame">
+    <inertial>
+      <mass value="0.05"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.07 0.05 0.04"/>
+      </geometry>
+      <material name="CameraBlue">
+        <color rgba="0.1 0.25 0.9 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.06 0.05 0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="cam_optical_joint" type="fixed">
+    <parent link="cam_frame"/>
+    <child link="cam_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+  </joint>
+
+  <link name="cam_optical_link"/>
+
+  <gazebo reference="laser_frame">
+    <sensor name="front_lidar" type="gpu_lidar">
+      <topic>scan</topic>
+      <update_rate>10</update_rate>
+      <gz_frame_id>laser_frame</gz_frame_id>
+      <always_on>true</always_on>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>810</samples>
+            <resolution>1</resolution>
+            <min_angle>-2.35619</min_angle>
+            <max_angle>2.35619</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.05</min>
+          <max>20.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.02</stddev>
+        </noise>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="cam_frame">
+    <sensor name="front_camera" type="camera">
+      <topic>camera/image</topic>
+      <update_rate>2</update_rate>
+      <gz_frame_id>cam_optical_link</gz_frame_id>
+      <always_on>true</always_on>
+      <camera>
+        <camera_info_topic>camera/camera_info</camera_info_topic>
+        <horizontal_fov>1.204277</horizontal_fov>
+        <image>
+          <width>160</width>
+          <height>120</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>12.0</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.0075</stddev>
+        </noise>
+      </camera>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <sensor name="imu_sensor" type="imu">
+      <topic>imu</topic>
+      <gz_frame_id>base_link</gz_frame_id>
+      <update_rate>20</update_rate>
+      <always_on>true</always_on>
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.001</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.001</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.001</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.05</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.05</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.05</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>joint_states</topic>
+    </plugin>
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <left_joint>p3at_front_left_wheel_joint</left_joint>
+      <left_joint>p3at_back_left_wheel_joint</left_joint>
+      <right_joint>p3at_front_right_wheel_joint</right_joint>
+      <right_joint>p3at_back_right_wheel_joint</right_joint>
+      <wheel_separation>${wheel_separation}</wheel_separation>
+      <wheel_radius>${wheel_radius}</wheel_radius>
+      <odom_publish_frequency>${odom_publish_frequency}</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>false</publish_odom_tf>
+    </plugin>
+  </gazebo>
+</robot>

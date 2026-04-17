@@ -1,0 +1,351 @@
+[0.479s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[0.479s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=16, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x7cd66b47b8f0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7cd66b47b6b0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7cd66b47b6b0>>, mixin_verb=('build',))
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.542s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.542s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/god/auto4508/project'
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.542s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extensions ['ignore', 'ignore_ament_install']
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'ignore'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'ignore_ament_install'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extensions ['colcon_pkg']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'colcon_pkg'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extensions ['colcon_meta']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'colcon_meta'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extensions ['ros']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'ros'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extensions ['cmake', 'python']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'cmake'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'python'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extensions ['python_setup_py']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources) by extension 'python_setup_py'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extensions ['ignore', 'ignore_ament_install']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'ignore'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'ignore_ament_install'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extensions ['colcon_pkg']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'colcon_pkg'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extensions ['colcon_meta']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'colcon_meta'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extensions ['ros']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'ros'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extensions ['cmake', 'python']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'cmake'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'python'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extensions ['python_setup_py']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/launch) by extension 'python_setup_py'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extensions ['ignore', 'ignore_ament_install']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'ignore'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'ignore_ament_install'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extensions ['colcon_pkg']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'colcon_pkg'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extensions ['colcon_meta']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'colcon_meta'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extensions ['ros']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'ros'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extensions ['cmake', 'python']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'cmake'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'python'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extensions ['python_setup_py']
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes) by extension 'python_setup_py'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extensions ['ignore', 'ignore_ament_install']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'ignore'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'ignore_ament_install'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extensions ['colcon_pkg']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'colcon_pkg'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extensions ['colcon_meta']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'colcon_meta'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extensions ['ros']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'ros'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extensions ['cmake', 'python']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'cmake'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'python'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extensions ['python_setup_py']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/meshes/p3at_meshes) by extension 'python_setup_py'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extensions ['ignore', 'ignore_ament_install']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'ignore'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'ignore_ament_install'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extensions ['colcon_pkg']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'colcon_pkg'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extensions ['colcon_meta']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'colcon_meta'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extensions ['ros']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'ros'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extensions ['cmake', 'python']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'cmake'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'python'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extensions ['python_setup_py']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/robots) by extension 'python_setup_py'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extensions ['ignore', 'ignore_ament_install']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'ignore'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'ignore_ament_install'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extensions ['colcon_pkg']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'colcon_pkg'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extensions ['colcon_meta']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'colcon_meta'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extensions ['ros']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'ros'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extensions ['cmake', 'python']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'cmake'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'python'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extensions ['python_setup_py']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(Resources/worlds) by extension 'python_setup_py'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.585s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extensions ['ignore', 'ignore_ament_install']
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extension 'ignore'
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extension 'ignore_ament_install'
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extensions ['colcon_pkg']
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extension 'colcon_pkg'
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extensions ['colcon_meta']
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extension 'colcon_meta'
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extensions ['ros']
+[0.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_bringup) by extension 'ros'
+[0.589s] DEBUG:colcon.colcon_core.package_identification:Package 'src/p3at_bringup' with type 'ros.ament_python' and name 'p3at_bringup'
+[0.589s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extensions ['ignore', 'ignore_ament_install']
+[0.589s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extension 'ignore'
+[0.589s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extension 'ignore_ament_install'
+[0.590s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extensions ['colcon_pkg']
+[0.590s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extension 'colcon_pkg'
+[0.590s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extensions ['colcon_meta']
+[0.590s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extension 'colcon_meta'
+[0.590s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extensions ['ros']
+[0.590s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_description) by extension 'ros'
+[0.591s] DEBUG:colcon.colcon_core.package_identification:Package 'src/p3at_description' with type 'ros.ament_cmake' and name 'p3at_description'
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extensions ['ignore', 'ignore_ament_install']
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extension 'ignore'
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extension 'ignore_ament_install'
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extensions ['colcon_pkg']
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extension 'colcon_pkg'
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extensions ['colcon_meta']
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extension 'colcon_meta'
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extensions ['ros']
+[0.591s] Level 1:colcon.colcon_core.package_identification:_identify(src/p3at_nav_plugins) by extension 'ros'
+[0.593s] DEBUG:colcon.colcon_core.package_identification:Package 'src/p3at_nav_plugins' with type 'ros.ament_cmake' and name 'p3at_nav_plugins'
+[0.593s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.593s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.593s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.593s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.593s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.621s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.621s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.623s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 3 installed packages in /home/god/auto4508/project/install
+[0.625s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 389 installed packages in /opt/ros/jazzy
+[0.627s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'cmake_args' from command line to 'None'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'cmake_target' from command line to 'None'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'cmake_clean_cache' from command line to 'False'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'cmake_clean_first' from command line to 'False'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'cmake_force_configure' from command line to 'False'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'ament_cmake_args' from command line to 'None'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'catkin_cmake_args' from command line to 'None'
+[0.702s] Level 5:colcon.colcon_core.verb:set package 'p3at_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.702s] DEBUG:colcon.colcon_core.verb:Building package 'p3at_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/god/auto4508/project/build/p3at_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/god/auto4508/project/install/p3at_description', 'merge_install': False, 'path': '/home/god/auto4508/project/src/p3at_description', 'symlink_install': True, 'test_result_base': None}
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'cmake_args' from command line to 'None'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'cmake_target' from command line to 'None'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'cmake_clean_cache' from command line to 'False'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'cmake_clean_first' from command line to 'False'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'cmake_force_configure' from command line to 'False'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'ament_cmake_args' from command line to 'None'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'catkin_cmake_args' from command line to 'None'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_nav_plugins' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.703s] DEBUG:colcon.colcon_core.verb:Building package 'p3at_nav_plugins' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/god/auto4508/project/build/p3at_nav_plugins', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/god/auto4508/project/install/p3at_nav_plugins', 'merge_install': False, 'path': '/home/god/auto4508/project/src/p3at_nav_plugins', 'symlink_install': True, 'test_result_base': None}
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'cmake_args' from command line to 'None'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'cmake_target' from command line to 'None'
+[0.703s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'cmake_clean_cache' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'cmake_clean_first' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'cmake_force_configure' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'ament_cmake_args' from command line to 'None'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'catkin_cmake_args' from command line to 'None'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'p3at_bringup' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.704s] DEBUG:colcon.colcon_core.verb:Building package 'p3at_bringup' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/god/auto4508/project/build/p3at_bringup', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/god/auto4508/project/install/p3at_bringup', 'merge_install': False, 'path': '/home/god/auto4508/project/src/p3at_bringup', 'symlink_install': True, 'test_result_base': None}
+[0.704s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.706s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.706s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/god/auto4508/project/src/p3at_description' with build type 'ament_cmake'
+[0.707s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/god/auto4508/project/src/p3at_description'
+[0.710s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.710s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.710s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.716s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/god/auto4508/project/src/p3at_nav_plugins' with build type 'ament_cmake'
+[0.717s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/god/auto4508/project/src/p3at_nav_plugins'
+[0.717s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.717s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.735s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/god/auto4508/project/build/p3at_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --build /home/god/auto4508/project/build/p3at_description -- -j16 -l16
+[0.741s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/god/auto4508/project/build/p3at_nav_plugins': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --build /home/god/auto4508/project/build/p3at_nav_plugins -- -j16 -l16
+[0.829s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/god/auto4508/project/build/p3at_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --build /home/god/auto4508/project/build/p3at_description -- -j16 -l16
+[0.850s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/god/auto4508/project/build/p3at_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --install /home/god/auto4508/project/build/p3at_description
+[0.907s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/god/auto4508/project/build/p3at_nav_plugins' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --build /home/god/auto4508/project/build/p3at_nav_plugins -- -j16 -l16
+[0.913s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/god/auto4508/project/build/p3at_nav_plugins': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --install /home/god/auto4508/project/build/p3at_nav_plugins
+[0.913s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(p3at_description)
+[0.914s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/god/auto4508/project/build/p3at_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --install /home/god/auto4508/project/build/p3at_description
+[0.917s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description' for CMake module files
+[0.918s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description' for CMake config files
+[0.919s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_description', 'cmake_prefix_path')
+[0.919s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_description/share/p3at_description/hook/cmake_prefix_path.ps1'
+[0.920s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_description/share/p3at_description/hook/cmake_prefix_path.dsv'
+[0.921s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_description/share/p3at_description/hook/cmake_prefix_path.sh'
+[0.923s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/bin'
+[0.923s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/lib/pkgconfig/p3at_description.pc'
+[0.924s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/lib/python3.12/site-packages'
+[0.924s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/bin'
+[0.925s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.ps1'
+[0.927s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.dsv'
+[0.932s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.sh'
+[0.934s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.bash'
+[0.935s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.zsh'
+[0.936s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/god/auto4508/project/install/p3at_description/share/colcon-core/packages/p3at_description)
+[0.937s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(p3at_description)
+[0.937s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description' for CMake module files
+[0.938s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description' for CMake config files
+[0.939s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_description', 'cmake_prefix_path')
+[0.940s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_description/share/p3at_description/hook/cmake_prefix_path.ps1'
+[0.940s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_description/share/p3at_description/hook/cmake_prefix_path.dsv'
+[0.941s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_description/share/p3at_description/hook/cmake_prefix_path.sh'
+[0.942s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/bin'
+[0.942s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/lib/pkgconfig/p3at_description.pc'
+[0.942s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/lib/python3.12/site-packages'
+[0.943s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_description/bin'
+[0.944s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.ps1'
+[0.945s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.dsv'
+[0.945s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.sh'
+[0.946s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.bash'
+[0.947s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_description/share/p3at_description/package.zsh'
+[0.948s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/god/auto4508/project/install/p3at_description/share/colcon-core/packages/p3at_description)
+[0.964s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(p3at_nav_plugins)
+[0.965s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins' for CMake module files
+[0.966s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/god/auto4508/project/build/p3at_nav_plugins' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/god/auto4508/project/install/p3at_bringup:/opt/ros/jazzy /usr/bin/cmake --install /home/god/auto4508/project/build/p3at_nav_plugins
+[0.967s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins' for CMake config files
+[0.967s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_nav_plugins', 'cmake_prefix_path')
+[0.967s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/cmake_prefix_path.ps1'
+[0.968s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/cmake_prefix_path.dsv'
+[0.969s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/cmake_prefix_path.sh'
+[0.969s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/lib'
+[0.969s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_nav_plugins', 'ld_library_path_lib')
+[0.970s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/ld_library_path_lib.ps1'
+[0.970s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/ld_library_path_lib.dsv'
+[0.971s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/ld_library_path_lib.sh'
+[0.971s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/bin'
+[0.971s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/lib/pkgconfig/p3at_nav_plugins.pc'
+[0.972s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/lib/python3.12/site-packages'
+[0.972s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/bin'
+[0.973s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.ps1'
+[0.974s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.dsv'
+[0.975s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.sh'
+[0.976s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.bash'
+[0.977s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.zsh'
+[0.977s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/god/auto4508/project/install/p3at_nav_plugins/share/colcon-core/packages/p3at_nav_plugins)
+[0.978s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(p3at_nav_plugins)
+[0.979s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins' for CMake module files
+[0.979s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins' for CMake config files
+[0.980s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_nav_plugins', 'cmake_prefix_path')
+[0.980s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/cmake_prefix_path.ps1'
+[0.981s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/cmake_prefix_path.dsv'
+[0.981s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/cmake_prefix_path.sh'
+[0.982s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/lib'
+[0.982s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_nav_plugins', 'ld_library_path_lib')
+[0.982s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/ld_library_path_lib.ps1'
+[0.983s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/ld_library_path_lib.dsv'
+[0.983s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/hook/ld_library_path_lib.sh'
+[0.984s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/bin'
+[0.984s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/lib/pkgconfig/p3at_nav_plugins.pc'
+[0.984s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/lib/python3.12/site-packages'
+[0.984s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_nav_plugins/bin'
+[0.984s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.ps1'
+[0.985s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.dsv'
+[0.985s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.sh'
+[0.986s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.bash'
+[0.986s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_nav_plugins/share/p3at_nav_plugins/package.zsh'
+[0.987s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/god/auto4508/project/install/p3at_nav_plugins/share/colcon-core/packages/p3at_nav_plugins)
+[0.987s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/god/auto4508/project/src/p3at_bringup' with build type 'ament_python'
+[0.987s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_bringup', 'ament_prefix_path')
+[0.988s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/hook/ament_prefix_path.ps1'
+[0.989s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/hook/ament_prefix_path.dsv'
+[0.990s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/hook/ament_prefix_path.sh'
+[0.991s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.992s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.751s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/god/auto4508/project/src/p3at_bringup'
+[1.751s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.751s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.042s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/god/auto4508/project/build/p3at_bringup': LD_LIBRARY_PATH=/home/god/auto4508/project/install/p3at_nav_plugins/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/god/.local/lib PYTHONPATH=/home/god/auto4508/project/build/p3at_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/god/auto4508/project/install/p3at_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/god/auto4508/project/build/p3at_bringup/build --no-deps symlink_data
+[4.055s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_bringup', 'pythonpath_develop')
+[4.056s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/build/p3at_bringup/share/p3at_bringup/hook/pythonpath_develop.ps1'
+[4.057s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/god/auto4508/project/build/p3at_bringup' returned '0': LD_LIBRARY_PATH=/home/god/auto4508/project/install/p3at_nav_plugins/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/god/.local/lib PYTHONPATH=/home/god/auto4508/project/build/p3at_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/god/auto4508/project/install/p3at_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/god/auto4508/project/build/p3at_bringup/build --no-deps symlink_data
+[4.057s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/build/p3at_bringup/share/p3at_bringup/hook/pythonpath_develop.dsv'
+[4.058s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/build/p3at_bringup/share/p3at_bringup/hook/pythonpath_develop.sh'
+[4.059s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup' for CMake module files
+[4.060s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup' for CMake config files
+[4.061s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup/lib'
+[4.061s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup/bin'
+[4.061s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup/lib/pkgconfig/p3at_bringup.pc'
+[4.062s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup/lib/python3.12/site-packages'
+[4.062s] Level 1:colcon.colcon_core.shell:create_environment_hook('p3at_bringup', 'pythonpath')
+[4.062s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/hook/pythonpath.ps1'
+[4.063s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/hook/pythonpath.dsv'
+[4.063s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/hook/pythonpath.sh'
+[4.064s] Level 1:colcon.colcon_core.environment:checking '/home/god/auto4508/project/install/p3at_bringup/bin'
+[4.064s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(p3at_bringup)
+[4.064s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/package.ps1'
+[4.065s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/package.dsv'
+[4.065s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/package.sh'
+[4.066s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/package.bash'
+[4.066s] INFO:colcon.colcon_core.shell:Creating package script '/home/god/auto4508/project/install/p3at_bringup/share/p3at_bringup/package.zsh'
+[4.067s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/god/auto4508/project/install/p3at_bringup/share/colcon-core/packages/p3at_bringup)
+[4.067s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[4.068s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[4.068s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[4.069s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[4.227s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[4.228s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[4.228s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[4.228s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[4.230s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.Notifications was not provided by any .service files
+[4.230s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[4.230s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/god/auto4508/project/install/local_setup.ps1'
+[4.231s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/god/auto4508/project/install/_local_setup_util_ps1.py'
+[4.232s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/god/auto4508/project/install/setup.ps1'
+[4.234s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/god/auto4508/project/install/local_setup.sh'
+[4.234s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/god/auto4508/project/install/_local_setup_util_sh.py'
+[4.235s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/god/auto4508/project/install/setup.sh'
+[4.236s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/god/auto4508/project/install/local_setup.bash'
+[4.237s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/god/auto4508/project/install/setup.bash'
+[4.238s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/god/auto4508/project/install/local_setup.zsh'
+[4.238s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/god/auto4508/project/install/setup.zsh'
