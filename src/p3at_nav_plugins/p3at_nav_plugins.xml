@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<library path="p3at_nav_plugins">
+  <class
+      name="p3at_nav_plugins::P3ATController"
+      type="p3at_nav_plugins::P3ATController"
+      base_class_type="nav2_core::Controller">
+    <description>
+      Custom Nav2 controller for Pioneer 3-AT with path tracking, terminal slowdown,
+      final heading alignment, and local costmap collision prediction.
+    </description>
+  </class>
+</library>

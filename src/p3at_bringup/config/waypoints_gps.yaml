@@ -1,0 +1,71 @@
+mission_id: part2_demo_james_oval
+
+# Sim world origin mapped to a geodetic anchor near James Oval.
+origin_lat: -31.9807000
+origin_lon: 115.8177000
+origin_alt: 15.0
+
+# Keep datum fixed so map coordinates are stable across repeated runs.
+datum:
+  lat: -31.9807000
+  lon: 115.8177000
+  alt: 15.0
+
+home:
+  lat: -31.9806900
+  lon: 115.8177100
+  alt: 15.0
+
+mission_bounds:
+  - {lat: -31.9809000, lon: 115.8174500}
+  - {lat: -31.9809000, lon: 115.8180500}
+  - {lat: -31.9803500, lon: 115.8180500}
+  - {lat: -31.9803500, lon: 115.8174500}
+
+return_home: true
+
+waypoints:
+  - id: WP1
+    lat: -31.9806500
+    lon: 115.8178200
+    arrival_radius: 1.5
+    pass_side: right
+    policy: default
+    photo_required: true
+    notes: "Entry waypoint."
+
+  - id: WP2
+    lat: -31.9806100
+    lon: 115.8179400
+    arrival_radius: 1.4
+    pass_side: right
+    policy: weave_through_cones
+    photo_required: true
+    notes: "Weave segment end."
+
+  - id: WP3
+    lat: -31.9805400
+    lon: 115.8179300
+    arrival_radius: 1.5
+    pass_side: right
+    policy: default_marker
+    photo_required: true
+    notes: ""
+
+  - id: WP4
+    lat: -31.9805000
+    lon: 115.8178200
+    arrival_radius: 1.6
+    pass_side: right
+    policy: default_marker
+    photo_required: true
+    notes: ""
+
+  - id: WP5
+    lat: -31.9805600
+    lon: 115.8177000
+    arrival_radius: 1.5
+    pass_side: right
+    policy: default_marker
+    photo_required: true
+    notes: "Final cone before return."

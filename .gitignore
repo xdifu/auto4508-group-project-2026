@@ -1,8 +1,7 @@
 # Ignore everything
-*
+/*
 
-# But keep these
+# Accept specific directories and files
 !/src/
-!README.md
-!README.MD
-!.gitignore
+!/[rR][eE][aA][dD][mM][eE].[mM][dD]
+!/.gitignore
