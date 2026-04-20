@@ -6,13 +6,17 @@ USER root
 
 # 更新并在构建时安装基础依赖和自动烧录缺失的 nav2 核心导航库
 RUN apt-get update && \
-    apt-get install -y wget ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-core && \
+    apt-get install -y git build-essential ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-core && \
     rm -rf /var/lib/apt/lists/*
 
-# 下载并安装被 Ubuntu 最新发行版抛弃的先锋机器人 Aria 底层 C++ 库，防止编译时出现 Aria/Aria.h 找不到的致命错误！
-RUN wget http://robots.mobilerobots.com/ARIA/download/current/libaria_2.9.1+ubuntu16_amd64.deb -O libaria.deb && \
-    dpkg -i libaria.deb || apt-get install -y -f && \
-    rm libaria.deb
+# 从源码重新编译安装被时代抛弃的先锋 Aria 底层 C++ 库，并建立全局软链接，防止 Aria/Aria.h 找不到错误！
+RUN git clone https://github.com/amor-ros-pkg/libaria.git /tmp/libaria && \
+    cd /tmp/libaria && \
+    make -j4 && \
+    make install && \
+    ln -s /usr/local/Aria/include /usr/local/include/Aria && \
+    ln -s /usr/local/Aria/lib/libAria.so /usr/lib/libAria.so && \
+    rm -rf /tmp/libaria
 
 # 设置默认进来的目录
 WORKDIR /workspace
