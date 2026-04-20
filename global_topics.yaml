@@ -1,0 +1,16 @@
+vision_node:
+  ros__parameters:
+    topic_image: '/camera/image'
+    topic_depth: '/camera/depth/image_rect_raw'
+    topic_camera_info: '/camera/camera_info'
+    topic_mission_nav: '/mission/navigation'
+    topic_mission_vision: '/mission/vision'
+    output_dir: '/home/nyx/auto4508_group_ws/vision_outputs'
+
+safety_multiplexer:
+  ros__parameters:
+    topic_joy: '/joy'
+    topic_cmd_vel_auto: '/cmd_vel_auto'
+    topic_cmd_vel: '/cmd_vel'
+
+# The mission_controller still reads its topics from src/p3at_controller/config/waypoints_part2.yaml
