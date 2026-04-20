@@ -10,4 +10,4 @@ docker run -it --rm \
     -v /dev:/dev \
     -v ~/auto4508-group-project-2026:/workspace \
     -w /workspace \
-    docker-t5_paneer:latest bash
+    mobrob-ros2-ros2:latest bash
