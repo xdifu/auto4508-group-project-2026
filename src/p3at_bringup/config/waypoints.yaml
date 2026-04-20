@@ -1,8 +1,0 @@
-waypoints:
-  frame_id: map
-  poses:
-    - {x: 1.5, y: 1.0, yaw: 0.0}
-    - {x: 4.5, y: 1.0, yaw: 0.0}
-    - {x: 6.0, y: 2.5, yaw: 0.8}
-    - {x: 6.3, y: 6.3, yaw: 1.6}
-    - {x: 2.5, y: 7.4, yaw: 3.14}

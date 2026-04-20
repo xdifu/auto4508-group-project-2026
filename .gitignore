@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# But keep these
+!/src/
+!README.md
+!README.MD
+!.gitignore
