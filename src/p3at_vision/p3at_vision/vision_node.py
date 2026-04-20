@@ -29,10 +29,24 @@ class VisionNode(Node):
         self.cx = None
         self.cy = None
 
+        self.declare_parameter('topic_image', '/camera/image')
+        self.declare_parameter('topic_depth', '/camera/depth/image_rect_raw')
+        self.declare_parameter('topic_camera_info', '/camera/camera_info')
+        self.declare_parameter('topic_mission_nav', '/mission/navigation')
+        self.declare_parameter('topic_mission_vision', '/mission/vision')
+        self.declare_parameter('output_dir', '/home/nyx/auto4508_group_ws/vision_outputs')
+        
+        topic_image = self.get_parameter('topic_image').value
+        topic_depth = self.get_parameter('topic_depth').value
+        topic_camera_info = self.get_parameter('topic_camera_info').value
+        topic_nav = self.get_parameter('topic_mission_nav').value
+        topic_vision = self.get_parameter('topic_mission_vision').value
+        self.output_dir = self.get_parameter('output_dir').value
+
         # RGB image
         self.image_sub = self.create_subscription(
             Image,
-            '/camera/image',
+            topic_image,
             self.image_callback,
             10
         )
@@ -40,7 +54,7 @@ class VisionNode(Node):
         # Depth image (for real robot / OAK-D)
         self.depth_sub = self.create_subscription(
             Image,
-            '/camera/depth/image_rect_raw',
+            topic_depth,
             self.depth_callback,
             10
         )
@@ -48,7 +62,7 @@ class VisionNode(Node):
         # Camera intrinsic parameters
         self.cam_info_sub = self.create_subscription(
             CameraInfo,
-            '/camera/camera_info',
+            topic_camera_info,
             self.camera_info_callback,
             10
         )
@@ -56,7 +70,7 @@ class VisionNode(Node):
         # Mission trigger from teammate A
         self.nav_sub = self.create_subscription(
             String,
-            '/mission/navigation',
+            topic_nav,
             self.navigation_callback,
             10
         )
@@ -64,11 +78,9 @@ class VisionNode(Node):
         # Publish result for logger / teammate C
         self.vision_pub = self.create_publisher(
             String,
-            '/mission/vision',
+            topic_vision,
             10
         )
-
-        self.output_dir = '/root/ros2_ws/vision_outputs'
         os.makedirs(self.output_dir, exist_ok=True)
 
         # Fallback scale estimation if no depth is available

@@ -42,7 +42,7 @@ weave:
   num_offsets: 4
 
 topics:
-  cmd_vel_auto: /cmd_vel
+  cmd_vel_auto: /cmd_vel_auto
   cmd_vel_manual: /cmd_vel
   nav_log: /mission/navigation
   vision_log: /mission/vision
@@ -55,4 +55,4 @@ development:
   fake_perception: true
 
 output:
-  base_dir: /home/kevindu/Downloads/ros_workshop_ws/part2_runs
+  base_dir: /home/nyx/auto4508_group_ws/part2_runs

@@ -50,6 +50,9 @@ class SafetyNode(Node):
         self.declare_parameter('axis_angular', 0)
         self.declare_parameter('max_speed_linear', 0.5)
         self.declare_parameter('max_speed_angular', 1.0)
+        self.declare_parameter('topic_joy', '/joy')
+        self.declare_parameter('topic_cmd_vel_auto', '/cmd_vel_auto')
+        self.declare_parameter('topic_cmd_vel', '/cmd_vel')
 
         # 读取参数
         self.btn_auto = self.get_parameter('btn_auto').value
@@ -71,9 +74,13 @@ class SafetyNode(Node):
         self.auto_twist = Twist()
 
         # 4. 通信接口
-        self.joy_sub = self.create_subscription(Joy, '/joy', self.joy_cb, 10)
-        self.auto_sub = self.create_subscription(Twist, '/cmd_vel_auto', self.auto_cb, 10)
-        self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        topic_joy = self.get_parameter('topic_joy').value
+        topic_cmd_vel_auto = self.get_parameter('topic_cmd_vel_auto').value
+        topic_cmd_vel = self.get_parameter('topic_cmd_vel').value
+
+        self.joy_sub = self.create_subscription(Joy, topic_joy, self.joy_cb, 10)
+        self.auto_sub = self.create_subscription(Twist, topic_cmd_vel_auto, self.auto_cb, 10)
+        self.cmd_pub = self.create_publisher(Twist, topic_cmd_vel, 10)
 
         # 5. 心跳循环
         self.timer = self.create_timer(0.1, self.control_loop)
