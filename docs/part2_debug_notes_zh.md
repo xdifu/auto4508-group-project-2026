@@ -229,3 +229,31 @@
   - 替换为最终 waypoint 文件
   - 做 manual drive / AUTO-MANUAL / deadman
   - 跑单 waypoint、双 waypoint、weave、full mission
+
+### Round 6（蜂鸣 + 手柄无效紧急修复）
+
+- 时间：2026-04-21 01:5x AWST
+- 机器人：`192.168.2.213 / pioneer7-NUC11PHi7`
+- 现象：
+  - 机器人持续蜂鸣
+  - 手柄按键有 `/joy` 数据，但车不动
+- 直接证据：
+  - `docker logs t17-manual` 显示 `aria_node` 启动后报错并退出：
+    - `Could not connect ... /dev/ttyUSB0`
+    - `No packet`
+    - `process has died`
+  - 此时 `ros2 topic info /cmd_vel -v` 只有发布者（`safety_node`），`Subscription count: 0`（底盘未接入）
+- 根因（本次实测）：
+  - 手动容器里底盘驱动只尝试一次串口握手，首次失败后 `aria_node` 退出；
+  - 其他节点（`joy/teleop/safety`）仍在运行，造成“看起来系统在跑、但底盘完全不接收 `/cmd_vel`”。
+- 修复动作（现场生效）：
+  - 在容器内手工重试底盘连接，确认串口可恢复握手：
+    - `timeout 8 /workspace/install/aria_node/lib/aria_node/ariaNode -rp /dev/ttyUSB0`
+    - 出现 `Syncing 0/1/2` + `Connected to robot`。
+  - 随后重新拉起 `aria_base.launch.py`，恢复 `/aria_node` 常驻。
+  - 蜂鸣在底盘重新建立连接后结束。
+- 避坑结论（必须执行）：
+  - 不能只看 `docker ps` 判断“系统正常”，必须同时检查：
+    - `ros2 node list` 里有 `/aria_node`
+    - `ros2 topic info /cmd_vel -v` 的 `Subscription count >= 1`
+  - 一旦出现“蜂鸣 + 手柄无效”，先查 `aria_node` 是否已退出，再做其他调参。
