@@ -4,5 +4,6 @@
 # Accept specific directories and files
 !/src/
 !/global_topics.yaml
+!/start_robot_docker.sh
 !/[rR][eE][aA][dD][mM][eE].[mM][dD]
 !/.gitignore
