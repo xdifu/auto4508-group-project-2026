@@ -34,7 +34,7 @@ class VisionNode(Node):
         self.declare_parameter('topic_camera_info', '/camera/camera_info')
         self.declare_parameter('topic_mission_nav', '/mission/navigation')
         self.declare_parameter('topic_mission_vision', '/mission/vision')
-        self.declare_parameter('output_dir', '/home/nyx/auto4508_group_ws/vision_outputs')
+        self.declare_parameter('output_dir', '/home/team17/auto4508_group_ws/vision_outputs')
         
         topic_image = self.get_parameter('topic_image').value
         topic_depth = self.get_parameter('topic_depth').value

@@ -5,7 +5,7 @@ vision_node:
     topic_camera_info: '/camera/camera_info'
     topic_mission_nav: '/mission/navigation'
     topic_mission_vision: '/mission/vision'
-    output_dir: '/home/nyx/auto4508_group_ws/vision_outputs'
+    output_dir: '/home/team17/auto4508_group_ws/vision_outputs'
 
 safety_multiplexer:
   ros__parameters:
