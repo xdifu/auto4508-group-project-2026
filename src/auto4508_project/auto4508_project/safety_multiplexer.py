@@ -192,6 +192,9 @@ class SafetyNode(Node):
         timed_out = self.joy_timed_out()
         if timed_out and not self.last_joy_timeout_state:
             self.last_joy_timeout_state = True
+            if self.deadman_pressed:
+                self.deadman_pressed = False
+                self.publish_event("deadman_change")
             self.joy_connected = False
             self.publish_event("joy_timeout")
         self.last_cmd = self.arbitrate()

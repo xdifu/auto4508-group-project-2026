@@ -248,11 +248,14 @@ class VisionNode(Node):
             return None
 
         best_result = None
+        best_priority = -1
         best_score = -1.0
         for frame in candidate_frames:
             candidate = self.process_frame(frame, wp_id, attempt_idx)
             score = float(candidate.pop("_score", -1.0))
-            if score > best_score:
+            priority = self.result_priority(str(candidate.get("status", "failed")))
+            if priority > best_priority or (priority == best_priority and score > best_score):
+                best_priority = priority
                 best_score = score
                 best_result = candidate
 
@@ -379,6 +382,14 @@ class VisionNode(Node):
             "object_pose_camera": None,
             "ts": round(self.get_clock().now().nanoseconds / 1e9, 3),
         }
+
+    def result_priority(self, status: str) -> int:
+        priorities = {
+            "ok": 2,
+            "partial": 1,
+            "failed": 0,
+        }
+        return priorities.get(status, -1)
 
     def detect_cone(self, image: np.ndarray) -> Optional[Detection]:
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)

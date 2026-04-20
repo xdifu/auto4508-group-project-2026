@@ -723,7 +723,12 @@ class Part2Supervisor(Node):
                 self.current_goal_token = None
                 self.current_sequence_goal_index += 1
                 if self.current_sequence_goal_index < len(self.current_sequence):
-                    self._dispatch_next_goal()
+                    if not self._dispatch_next_goal():
+                        self.goal_failed = True
+                        self._publish_event(
+                            "goal_dispatch_failed",
+                            {"index": self.current_sequence_goal_index, "sequence_kind": self.current_sequence_kind},
+                        )
                 else:
                     self._handle_sequence_completion()
             return
