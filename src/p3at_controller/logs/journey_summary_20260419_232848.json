@@ -1,0 +1,17 @@
+{
+  "summary_version": "v3",
+  "mission_status": "completed",
+  "mission_start_unix": 1776612468.5698485,
+  "mission_end_unix": 1776612528.70935,
+  "mission_start_iso": "2026-04-19T23:27:48.569849",
+  "mission_end_iso": "2026-04-19T23:28:48.709350",
+  "duration_sec": 60.14,
+  "returned_home": true,
+  "mode_end": "AUTO",
+  "weave_enabled": true,
+  "images_dir": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out",
+  "generated_images": [],
+  "path_plot_exists": true,
+  "path_plot_file": "/home/kevindu/Downloads/ros_workshop_ws/driven_path_plot.png",
+  "waypoint_results": []
+}

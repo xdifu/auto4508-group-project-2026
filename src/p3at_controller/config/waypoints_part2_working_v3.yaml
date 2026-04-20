@@ -1,0 +1,15 @@
+waypoints:
+  - [1.0, 0.0]
+  - [2.0, 1.0]
+  - [3.0, 0.5]
+
+home: [0.0, 0.0]
+
+weave:
+  enabled: true
+  only_between_waypoint_1_and_2: true
+  amplitude: 0.35
+  num_offsets: 4
+
+development:
+  allow_auto_without_joy: true

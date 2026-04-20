@@ -1,0 +1,41 @@
+{
+  "mission_start_unix": 1776346211.1376348,
+  "mission_end_unix": 1776346273.2904613,
+  "duration_sec": 62.153,
+  "returned_home": true,
+  "waypoint_results": [
+    {
+      "waypoint_index": 1,
+      "waypoint": [
+        1.0,
+        0.0
+      ],
+      "marker_photo": "marker_wp1.jpg",
+      "shape": "circle",
+      "object_photo": "object_wp1.jpg",
+      "distance_to_marker": 1.2
+    },
+    {
+      "waypoint_index": 2,
+      "waypoint": [
+        2.0,
+        1.0
+      ],
+      "marker_photo": "marker_wp2.jpg",
+      "shape": "circle",
+      "object_photo": "object_wp2.jpg",
+      "distance_to_marker": 1.2
+    },
+    {
+      "waypoint_index": 3,
+      "waypoint": [
+        3.0,
+        0.5
+      ],
+      "marker_photo": "marker_wp3.jpg",
+      "shape": "circle",
+      "object_photo": "object_wp3.jpg",
+      "distance_to_marker": 1.2
+    }
+  ]
+}

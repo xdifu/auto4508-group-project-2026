@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<robot name="pioneer3at">
+
+  <material name="ChassisRed">
+    <color rgba="0.8 0.1 0.1 1.0"/>
+  </material>
+
+  <material name="WheelBlack">
+    <color rgba="0.1 0.1 0.1 1.0"/>
+  </material>
+
+  <material name="Grey">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <!-- base -->
+  <link name="base_link"/>
+
+  <!-- chassis -->
+  <joint name="base_chassis_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis"/>
+    <origin xyz="0 0 0.12" rpy="0 0 0"/>
+  </joint>
+
+  <link name="chassis">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="18.0"/>
+      <inertia ixx="0.30" ixy="0.0" ixz="0.0"
+               iyy="0.60" iyz="0.0"
+               izz="0.70"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.32 0.10"/>
+      </geometry>
+      <material name="ChassisRed"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.32 0.10"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- front left wheel -->
+  <joint name="p3at_front_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_left_wheel"/>
+    <origin xyz="0.16 0.19 0.06" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="front_left_wheel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0"
+               iyy="0.005" iyz="0.0"
+               izz="0.005"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- front right wheel -->
+  <joint name="p3at_front_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0.16 -0.19 0.06" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="front_right_wheel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0"
+               iyy="0.005" iyz="0.0"
+               izz="0.005"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- back left wheel -->
+  <joint name="p3at_back_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="back_left_wheel"/>
+    <origin xyz="-0.16 0.19 0.06" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="back_left_wheel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0"
+               iyy="0.005" iyz="0.0"
+               izz="0.005"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- back right wheel -->
+  <joint name="p3at_back_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="back_right_wheel"/>
+    <origin xyz="-0.16 -0.19 0.06" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="back_right_wheel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0"
+               iyy="0.005" iyz="0.0"
+               izz="0.005"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.09" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- simple top plate -->
+  <joint name="chassis_top_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="top_plate"/>
+    <origin xyz="0 0 0.08" rpy="0 0 0"/>
+  </joint>
+
+  <link name="top_plate">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0"
+               izz="0.01"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.25 0.20 0.02"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.25 0.20 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- keep teleop / diff drive active -->
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system"
+            name="gz::sim::systems::DiffDrive">
+      <left_joint>p3at_front_left_wheel_joint</left_joint>
+      <left_joint>p3at_back_left_wheel_joint</left_joint>
+      <right_joint>p3at_back_right_wheel_joint</right_joint>
+      <right_joint>p3at_front_right_wheel_joint</right_joint>
+      <wheel_separation>0.38</wheel_separation>
+      <wheel_radius>0.09</wheel_radius>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+    </plugin>
+  </gazebo>
+
+</robot>

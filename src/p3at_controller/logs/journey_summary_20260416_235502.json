@@ -1,0 +1,41 @@
+{
+  "mission_start_unix": 1776354844.9878144,
+  "mission_end_unix": 1776354902.1226535,
+  "duration_sec": 57.135,
+  "returned_home": true,
+  "waypoint_results": [
+    {
+      "waypoint_index": 1,
+      "waypoint": [
+        1.0,
+        0.0
+      ],
+      "marker_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp1_20260416_235416.svg",
+      "shape": "circle",
+      "object_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp1_circle_20260416_235416.svg",
+      "distance_to_marker": 1.2
+    },
+    {
+      "waypoint_index": 2,
+      "waypoint": [
+        2.0,
+        1.0
+      ],
+      "marker_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp2_20260416_235434.svg",
+      "shape": "triangle",
+      "object_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp2_triangle_20260416_235435.svg",
+      "distance_to_marker": 1.35
+    },
+    {
+      "waypoint_index": 3,
+      "waypoint": [
+        3.0,
+        0.5
+      ],
+      "marker_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp3_20260416_235441.svg",
+      "shape": "rectangle",
+      "object_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp3_rectangle_20260416_235442.svg",
+      "distance_to_marker": 1.5
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+mission_id: part2_hw_ready_v1
+
+pose_source:
+  topic: /odom
+  type: odometry
+
+home:
+  id: HOME
+  x: 0.0
+  y: 0.0
+  arrival_radius: 0.8
+
+waypoints:
+  - id: WP1
+    x: 1.0
+    y: 0.0
+    arrival_radius: 0.8
+    pass_side: right
+    photo_required: true
+    policy: default
+
+  - id: WP2
+    x: 2.0
+    y: 1.0
+    arrival_radius: 0.8
+    pass_side: right
+    photo_required: true
+    policy: weave_through_cones
+
+  - id: WP3
+    x: 3.0
+    y: 0.5
+    arrival_radius: 0.8
+    pass_side: none
+    photo_required: true
+    policy: default_marker
+
+weave:
+  enabled: true
+  only_between_waypoint_1_and_2: true
+  amplitude: 0.35
+  num_offsets: 4
+
+topics:
+  cmd_vel_auto: /cmd_vel
+  cmd_vel_manual: /cmd_vel
+  nav_log: /mission/navigation
+  vision_log: /mission/vision
+  safety_log: /mission/safety
+  marker_photo_done: /perception/marker_photo_done
+  shape_result: /perception/shape_result
+
+development:
+  allow_auto_without_joy: false
+  fake_perception: true
+
+output:
+  base_dir: /home/kevindu/Downloads/ros_workshop_ws/part2_runs

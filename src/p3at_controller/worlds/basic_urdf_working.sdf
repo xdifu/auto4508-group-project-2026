@@ -1,0 +1,230 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="pioneer_world">
+
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics"/>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands"/>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.85 0.85 0.85 1</ambient>
+            <diffuse>0.85 0.85 0.85 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================= -->
+    <!-- Oval-like arena boundary  -->
+    <!-- ========================= -->
+
+    <!-- top long -->
+    <model name="wall_top">
+      <static>true</static>
+      <pose>0 3.0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>6.0 0.2 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>6.0 0.2 0.5</size></box></geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- bottom long -->
+    <model name="wall_bottom">
+      <static>true</static>
+      <pose>0 -3.0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>6.0 0.2 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>6.0 0.2 0.5</size></box></geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- left upper diagonal -->
+    <model name="wall_left_upper">
+      <static>true</static>
+      <pose>-3.6 2.2 0.25 0 0 0.70</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- left lower diagonal -->
+    <model name="wall_left_lower">
+      <static>true</static>
+      <pose>-3.6 -2.2 0.25 0 0 -0.70</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- right upper diagonal -->
+    <model name="wall_right_upper">
+      <static>true</static>
+      <pose>3.6 2.2 0.25 0 0 -0.70</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- right lower diagonal -->
+    <model name="wall_right_lower">
+      <static>true</static>
+      <pose>3.6 -2.2 0.25 0 0 0.70</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>2.0 0.2 0.5</size></box></geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================= -->
+    <!-- Obstacles inside arena    -->
+    <!-- ========================= -->
+
+    <!-- Roadblock 1 -->
+    <model name="roadblock_1">
+      <static>true</static>
+      <pose>-1.2 0.8 0.20 0 0 0.35</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.7 0.35 0.4</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.7 0.35 0.4</size></box></geometry>
+          <material>
+            <ambient>1.0 0.45 0.0 1</ambient>
+            <diffuse>1.0 0.45 0.0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Roadblock 2 -->
+    <model name="roadblock_2">
+      <static>true</static>
+      <pose>1.5 -0.9 0.20 0 0 -0.25</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.8 0.35 0.4</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.8 0.35 0.4</size></box></geometry>
+          <material>
+            <ambient>1.0 0.45 0.0 1</ambient>
+            <diffuse>1.0 0.45 0.0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Bucket / barrel -->
+    <model name="bucket_1">
+      <static>true</static>
+      <pose>0.8 1.3 0.30 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><cylinder><radius>0.22</radius><length>0.60</length></cylinder></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><cylinder><radius>0.22</radius><length>0.60</length></cylinder></geometry>
+          <material>
+            <ambient>0.1 0.3 0.9 1</ambient>
+            <diffuse>0.1 0.3 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

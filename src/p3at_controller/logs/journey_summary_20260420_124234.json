@@ -1,0 +1,58 @@
+{
+  "summary_version": "v3",
+  "mission_status": "completed",
+  "mission_start_unix": 1776660025.9424453,
+  "mission_end_unix": 1776660154.7029932,
+  "mission_start_iso": "2026-04-20T12:40:25.942445",
+  "mission_end_iso": "2026-04-20T12:42:34.702993",
+  "duration_sec": 128.761,
+  "returned_home": true,
+  "mode_end": "AUTO",
+  "weave_enabled": true,
+  "images_dir": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out",
+  "generated_images": [
+    "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp1_20260420_124054.svg",
+    "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp1_circle_20260420_124054.svg",
+    "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp2_20260420_124134.svg",
+    "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp2_triangle_20260420_124134.svg",
+    "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp3_20260420_124149.svg",
+    "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp3_rectangle_20260420_124150.svg"
+  ],
+  "path_plot_exists": true,
+  "path_plot_file": "/home/kevindu/Downloads/ros_workshop_ws/driven_path_plot.png",
+  "waypoint_results": [
+    {
+      "waypoint_index": 1,
+      "waypoint": [
+        1.0,
+        0.0
+      ],
+      "marker_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp1_20260420_124054.svg",
+      "shape": "circle",
+      "object_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp1_circle_20260420_124054.svg",
+      "distance_to_marker": 1.2
+    },
+    {
+      "waypoint_index": 2,
+      "waypoint": [
+        2.0,
+        1.0
+      ],
+      "marker_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp2_20260420_124134.svg",
+      "shape": "triangle",
+      "object_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp2_triangle_20260420_124134.svg",
+      "distance_to_marker": 1.35
+    },
+    {
+      "waypoint_index": 3,
+      "waypoint": [
+        3.0,
+        0.5
+      ],
+      "marker_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/marker_wp3_20260420_124149.svg",
+      "shape": "rectangle",
+      "object_photo": "/home/kevindu/Downloads/ros_workshop_ws/src/p3at/src/../images_out/object_wp3_rectangle_20260420_124150.svg",
+      "distance_to_marker": 1.5
+    }
+  ]
+}
