@@ -598,8 +598,12 @@ class Part2Supervisor(Node):
             return
         if dist < self.arrival_min_standoff_m:
             backoff = self._build_backoff_pose(wp)
-            self._start_sequence([backoff], "backoff")
-            self._set_state("NAVIGATING")
+            if self._start_sequence([backoff], "backoff"):
+                self._set_state("NAVIGATING")
+            else:
+                self.goal_failed = True
+                self._publish_event("goal_dispatch_failed", {"index": 0, "sequence_kind": "backoff"})
+                self._handle_navigation_failure("backoff_goal_dispatch_failed")
             return
         self.awaiting_vision = True
         self.vision_result = None
