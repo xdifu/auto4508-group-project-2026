@@ -12,5 +12,10 @@ safety_multiplexer:
     topic_joy: '/joy'
     topic_cmd_vel_auto: '/cmd_vel_auto'
     topic_cmd_vel: '/cmd_vel'
+    
+    # 手柄按键映射配置 (如果是 PS4 手柄，默认 0是叉，1是圆圈，4是L1, 5是R1)
+    btn_auto: 0
+    btn_manual: 1
+    btn_deadman: 4
 
 # The mission_controller still reads its topics from src/p3at_controller/config/waypoints_part2.yaml
