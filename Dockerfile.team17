@@ -1,0 +1,13 @@
+ARG BASE_IMAGE=mobrob-ros2-ros2:latest
+FROM ${BASE_IMAGE}
+
+# 必须使用 root 权限安装软件
+USER root
+
+# 更新并在构建时自动烧录确实的 nav2 核心导航库
+RUN apt-get update && \
+    apt-get install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-core && \
+    rm -rf /var/lib/apt/lists/*
+
+# 设置默认进来的目录
+WORKDIR /workspace

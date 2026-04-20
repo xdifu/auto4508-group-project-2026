@@ -5,5 +5,6 @@
 !/src/
 !/global_topics.yaml
 !/start_robot_docker.sh
+!/Dockerfile.team17
 !/[rR][eE][aA][dD][mM][eE].[mM][dD]
 !/.gitignore
