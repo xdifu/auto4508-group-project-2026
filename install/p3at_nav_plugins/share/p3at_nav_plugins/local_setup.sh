@@ -1,1 +1,0 @@
-/home/god/auto4508/project/build/p3at_nav_plugins/ament_cmake_environment_hooks/local_setup.sh

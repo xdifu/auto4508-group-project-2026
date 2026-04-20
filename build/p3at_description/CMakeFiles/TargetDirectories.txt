@@ -1,9 +1,0 @@
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/uninstall.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/p3at_description_uninstall.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/test.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/edit_cache.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/rebuild_cache.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/list_install_components.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/install.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/install/local.dir
-/home/god/auto4508/project/build/p3at_description/CMakeFiles/install/strip.dir

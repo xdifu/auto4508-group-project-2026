@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/god/auto4508/project/build/p3at_nav_plugins/libp3at_nav_plugins.so" "TARGETS" "p3at_nav_plugins" "ARCHIVE_DESTINATION" "lib" "LIBRARY_DESTINATION" "lib" "RUNTIME_DESTINATION" "bin")
