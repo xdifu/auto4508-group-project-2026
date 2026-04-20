@@ -4,7 +4,7 @@ from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
@@ -29,6 +29,7 @@ def generate_launch_description():
     autostart = LaunchConfiguration("autostart")
     record = LaunchConfiguration("record")
     rviz = LaunchConfiguration("rviz")
+    startup_delay_sec = LaunchConfiguration("startup_delay_sec")
 
     nav_stack = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(bringup_share, "launch", "nav.launch.py")),
@@ -204,6 +205,11 @@ def generate_launch_description():
             DeclareLaunchArgument("autostart", default_value="true"),
             DeclareLaunchArgument("rviz", default_value="false"),
             DeclareLaunchArgument("record", default_value="false"),
+            DeclareLaunchArgument(
+                "startup_delay_sec",
+                default_value="12.0",
+                description="Delay before starting non-base subsystems to give the Pioneer serial link time to connect",
+            ),
             DeclareLaunchArgument("robot_port", default_value="/dev/ttyUSB0"),
             DeclareLaunchArgument("gps_port", default_value="/dev/ttyACM0"),
             DeclareLaunchArgument("gps_baud", default_value="9600"),
@@ -213,19 +219,24 @@ def generate_launch_description():
             DeclareLaunchArgument("lidar_bringup_launch", default_value="sick_tim_7xx.launch.py"),
             DeclareLaunchArgument("lidar_hostname", default_value="192.168.0.1"),
             DeclareLaunchArgument("lidar_frame_id", default_value="laser_frame"),
-            robot_state_publisher,
             aria_stack,
-            gps_stack,
-            imu_stack,
-            lidar_stack,
-            joy_node,
-            teleop_node,
-            safety_node,
-            slam_toolbox,
-            map_saver,
-            map_saver_lifecycle,
-            logger_node,
-            vision_stack,
-            nav_stack,
+            TimerAction(
+                period=startup_delay_sec,
+                actions=[
+                    robot_state_publisher,
+                    gps_stack,
+                    imu_stack,
+                    lidar_stack,
+                    joy_node,
+                    teleop_node,
+                    safety_node,
+                    slam_toolbox,
+                    map_saver,
+                    map_saver_lifecycle,
+                    logger_node,
+                    vision_stack,
+                    nav_stack,
+                ],
+            ),
         ]
     )

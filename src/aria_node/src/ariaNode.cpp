@@ -10,6 +10,7 @@
 #include <csignal>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
@@ -196,7 +197,14 @@ int main(int argc, char ** argv)
   std::signal(SIGTERM, handle_signal);
 
   Aria::init();
-  ArArgumentParser parser(&argc, argv);
+  std::vector<std::string> aria_args = rclcpp::remove_ros_arguments(argc, argv);
+  std::vector<char *> aria_argv;
+  aria_argv.reserve(aria_args.size());
+  for (auto & arg : aria_args) {
+    aria_argv.push_back(arg.data());
+  }
+  int aria_argc = static_cast<int>(aria_argv.size());
+  ArArgumentParser parser(&aria_argc, aria_argv.data());
   parser.loadDefaultArguments();
 
   ArRobot robot;

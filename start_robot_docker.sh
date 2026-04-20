@@ -55,6 +55,7 @@ shell_join() {
 
 detect_image() {
   local candidates=(
+    "auto4508_team17_env:latest"
     "mobrob-ros2-ros2:latest"
     "docker-t5_paneer:latest"
   )
@@ -216,7 +217,7 @@ case "$MODE" in
 esac
 
 DOCKER_ARGS=(
-  run -it --rm
+  run
   --name "$CONTAINER_NAME"
   --privileged
   --network host
@@ -232,6 +233,11 @@ DOCKER_ARGS=(
   -e AUTO4508_RUN_ID="$RUN_ID"
   -e AUTO4508_ARTIFACTS_ROOT="$CONTAINER_ARTIFACTS_ROOT"
 )
+
+DOCKER_TTY_ARGS=()
+if [[ -t 0 && -t 1 ]]; then
+  DOCKER_TTY_ARGS=(-it)
+fi
 
 if [[ "$HOST_ARTIFACTS_ROOT" != "$WORKSPACE_HOST"* ]]; then
   DOCKER_ARGS+=(-v "${HOST_ARTIFACTS_ROOT}:${HOST_ARTIFACTS_ROOT}")
@@ -267,4 +273,4 @@ echo "Artifacts:   $HOST_ARTIFACTS_ROOT"
 echo "Container artifacts: $CONTAINER_ARTIFACTS_ROOT"
 echo "Mode:        $MODE"
 
-exec docker "${DOCKER_ARGS[@]}" "$IMAGE_NAME" bash -lc "$CMD"
+exec docker "${DOCKER_ARGS[@]}" "${DOCKER_TTY_ARGS[@]}" --rm "$IMAGE_NAME" bash -lc "$CMD"

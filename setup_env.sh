@@ -6,8 +6,19 @@ ARIACODA_SRC_DIR="${ARIACODA_SRC_DIR:-/tmp/AriaCoda}"
 ARIACODA_PREFIX="/usr/local"
 
 sudo apt install -y build-essential git
-sudo apt install -y ros2-testing-apt-source
+if ! sudo apt install -y ros2-testing-apt-source; then
+  echo "ros2-testing-apt-source unavailable; continuing with existing apt sources"
+fi
 sudo apt update
+sudo apt remove -y \
+  "ros-${ROS_DISTRO}-depthai" \
+  "ros-${ROS_DISTRO}-depthai-bridge" \
+  "ros-${ROS_DISTRO}-depthai-descriptions" \
+  "ros-${ROS_DISTRO}-depthai-examples" \
+  "ros-${ROS_DISTRO}-depthai-filters" \
+  "ros-${ROS_DISTRO}-depthai-ros" \
+  "ros-${ROS_DISTRO}-depthai-ros-driver" \
+  "ros-${ROS_DISTRO}-depthai-ros-msgs" || true
 sudo apt install -y \
   "ros-${ROS_DISTRO}-depthai-ros-v3" \
   "ros-${ROS_DISTRO}-cv-bridge" \

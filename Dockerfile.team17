@@ -1,22 +1,63 @@
-ARG BASE_IMAGE=mobrob-ros2-ros2:latest
+ARG BASE_IMAGE=ros:jazzy
 FROM ${BASE_IMAGE}
+ARG ROS_DISTRO=jazzy
 
 # 必须使用 root 权限安装软件
 USER root
 
-# 更新并在构建时安装基础依赖和自动烧录缺失的 nav2 核心导航库
+# 清理课程镜像中与 depthai v3 冲突的旧版 depthai 栈。
 RUN apt-get update && \
-    apt-get install -y git build-essential ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-core && \
+    apt-get remove -y \
+      ros-$ROS_DISTRO-depthai \
+      ros-$ROS_DISTRO-depthai-bridge \
+      ros-$ROS_DISTRO-depthai-descriptions \
+      ros-$ROS_DISTRO-depthai-examples \
+      ros-$ROS_DISTRO-depthai-filters \
+      ros-$ROS_DISTRO-depthai-ros \
+      ros-$ROS_DISTRO-depthai-ros-driver \
+      ros-$ROS_DISTRO-depthai-ros-msgs || true
+
+# 安装 Part 2 真机主链所需的持久化运行依赖。
+RUN apt-get update && \
+    apt-get install -y \
+      git \
+      build-essential \
+      cmake \
+      python3-colcon-common-extensions \
+      python3-opencv \
+      ros-$ROS_DISTRO-angles \
+      ros-$ROS_DISTRO-cv-bridge \
+      ros-$ROS_DISTRO-image-transport \
+      ros-$ROS_DISTRO-camera-info-manager \
+      ros-$ROS_DISTRO-joy \
+      ros-$ROS_DISTRO-teleop-twist-joy \
+      ros-$ROS_DISTRO-robot-localization \
+      ros-$ROS_DISTRO-navigation2 \
+      ros-$ROS_DISTRO-nav2-core \
+      ros-$ROS_DISTRO-nav2-bringup \
+      ros-$ROS_DISTRO-nav2-collision-monitor \
+      ros-$ROS_DISTRO-nav2-velocity-smoother \
+      ros-$ROS_DISTRO-slam-toolbox \
+      ros-$ROS_DISTRO-nav2-map-server \
+      ros-$ROS_DISTRO-nmea-navsat-driver \
+      ros-$ROS_DISTRO-phidgets-spatial \
+      ros-$ROS_DISTRO-robot-state-publisher \
+      ros-$ROS_DISTRO-sick-scan-xd \
+      ros-$ROS_DISTRO-depthai-ros-v3 \
+      ros-$ROS_DISTRO-tf-transformations \
+      ros-$ROS_DISTRO-tf2-geometry-msgs \
+      ros-$ROS_DISTRO-xacro && \
     rm -rf /var/lib/apt/lists/*
 
-# 从源码重新编译安装被时代抛弃的先锋 Aria 底层 C++ 库，并建立全局软链接，防止 Aria/Aria.h 找不到错误！
-RUN git clone https://github.com/amor-ros-pkg/libaria.git /tmp/libaria && \
-    cd /tmp/libaria && \
-    make -j4 && \
-    make install && \
-    ln -s /usr/local/Aria/include /usr/local/include/Aria && \
-    ln -s /usr/local/Aria/lib/libAria.so /usr/lib/libAria.so && \
-    rm -rf /tmp/libaria
+# 使用课程要求一致的 AriaCoda，而不是在 Ubuntu 24.04 下已出现兼容性问题的旧 libaria。
+RUN git clone --depth 1 https://github.com/reedhedges/AriaCoda /tmp/AriaCoda && \
+    make -C /tmp/AriaCoda -j"$(nproc)" && \
+    make -C /tmp/AriaCoda install-default install-utils && \
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/ariacoda.conf && \
+    ldconfig && \
+    rm -rf /tmp/AriaCoda
+
+ENV ARIACODA_PREFIX=/usr/local
 
 # 设置默认进来的目录
 WORKDIR /workspace

@@ -7,3 +7,4 @@
 !/.gitignore
 !/setup_env.sh
 !/start_robot_docker.sh
+!/docs/
