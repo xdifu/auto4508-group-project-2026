@@ -212,6 +212,20 @@
 
   <link name="cam_optical_link"/>
 
+  <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps_link"/>
+    <origin xyz="0 0 0.34" rpy="0 0 0"/>
+  </joint>
+
+  <link name="gps_link">
+    <inertial>
+      <mass value="1e-5"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+  </link>
+
   <gazebo reference="laser_frame">
     <sensor name="front_lidar" type="gpu_lidar">
       <topic>scan</topic>

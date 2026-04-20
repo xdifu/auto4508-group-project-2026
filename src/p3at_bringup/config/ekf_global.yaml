@@ -1,6 +1,6 @@
 ekf_global_node:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: false
     frequency: 10.0
     sensor_timeout: 0.3
     two_d_mode: true
@@ -33,7 +33,7 @@ ekf_global_node:
     odom1_differential: false
     odom1_relative: false
 
-    imu0: /imu
+    imu0: /imu/data
     imu0_config: [false, false, false,
                   false, false, true,
                   false, false, false,

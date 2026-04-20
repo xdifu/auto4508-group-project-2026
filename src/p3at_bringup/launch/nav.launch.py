@@ -1,47 +1,52 @@
 import os
+from datetime import datetime
+from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
+    run_id_default = datetime.now().strftime("%Y%m%d_%H%M%S")
+    cwd = os.getcwd()
+
     use_sim_time = LaunchConfiguration("use_sim_time")
     autostart = LaunchConfiguration("autostart")
     record = LaunchConfiguration("record")
     rviz = LaunchConfiguration("rviz")
     waypoints_file = LaunchConfiguration("waypoints_file")
     policy_file = LaunchConfiguration("policy_file")
+    run_id = LaunchConfiguration("run_id")
+    artifacts_root = LaunchConfiguration("artifacts_root")
+    require_safety_topics = LaunchConfiguration("require_safety_topics")
 
     bringup_share = get_package_share_directory("p3at_bringup")
     description_share = get_package_share_directory("p3at_description")
-
     nav2_config = os.path.join(bringup_share, "config", "nav2_part2.yaml")
     ekf_local_config = os.path.join(bringup_share, "config", "ekf_local.yaml")
     ekf_global_config = os.path.join(bringup_share, "config", "ekf_global.yaml")
     navsat_config = os.path.join(bringup_share, "config", "navsat_transform.yaml")
     default_waypoints = os.path.join(bringup_share, "config", "waypoints_gps.yaml")
     default_policy = os.path.join(bringup_share, "config", "mission_policy.yaml")
+    bt_xml = os.path.join(bringup_share, "config", "part2_nav_to_pose.xml")
     rviz_config = os.path.join(description_share, "rviz", "nav.rviz")
 
-    cleanup_command = (
-        "self=$$; "
-        "pgrep -af 'navsat_transform_node|ekf_local_node|ekf_global_node|"
-        "planner_server|controller_server|behavior_server|bt_navigator|"
-        "nav2_lifecycle_manager/lifecycle_manager|"
-        "p3at_bringup/lib/p3at_bringup/mission_orchestrator|"
-        "p3at_bringup/lib/p3at_bringup/gps_health_monitor|"
-        "p3at_bringup/lib/p3at_bringup/path_recorder|"
-        "ros2 bag record' "
-        "| awk -v self=\"$self\" '$1 != self {print $1}' | xargs -r kill -TERM; "
-        "sleep 1"
-    )
-
-    common_nav_params = [nav2_config, {"use_sim_time": use_sim_time}]
-    remappings = [("/tf", "tf"), ("/tf_static", "tf_static")]
+    common_nav_params = [
+        nav2_config,
+        {
+            "use_sim_time": use_sim_time,
+            "default_nav_to_pose_bt_xml": bt_xml,
+        },
+    ]
+    nav_remappings = [
+        ("/tf", "tf"),
+        ("/tf_static", "tf_static"),
+    ]
+    cmd_vel_raw_remap = nav_remappings + [("cmd_vel", "/cmd_vel_nav_raw")]
 
     ekf_local = Node(
         package="robot_localization",
@@ -49,10 +54,7 @@ def generate_launch_description():
         name="ekf_local_node",
         output="screen",
         parameters=[ekf_local_config, {"use_sim_time": use_sim_time}],
-        remappings=[
-            ("odometry/filtered", "/odometry/filtered/local"),
-            ("/odometry/filtered", "/odometry/filtered/local"),
-        ],
+        remappings=[("odometry/filtered", "/odometry/filtered/local"), ("/odometry/filtered", "/odometry/filtered/local")],
     )
 
     ekf_global = Node(
@@ -61,10 +63,7 @@ def generate_launch_description():
         name="ekf_global_node",
         output="screen",
         parameters=[ekf_global_config, {"use_sim_time": use_sim_time}],
-        remappings=[
-            ("odometry/filtered", "/odometry/filtered/global"),
-            ("/odometry/filtered", "/odometry/filtered/global"),
-        ],
+        remappings=[("odometry/filtered", "/odometry/filtered/global"), ("/odometry/filtered", "/odometry/filtered/global")],
     )
 
     navsat_transform = Node(
@@ -74,9 +73,9 @@ def generate_launch_description():
         output="screen",
         parameters=[navsat_config, {"use_sim_time": use_sim_time}],
         remappings=[
-            ("imu/data", "/imu"),
+            ("imu/data", "/imu/data"),
             ("gps/fix", "/fix"),
-            ("odometry/filtered", "/odometry/filtered/global"),
+            ("odometry/filtered", "/odometry/filtered/local"),
             ("odometry/gps", "/odometry/gps"),
             ("gps/filtered", "/gps/filtered"),
         ],
@@ -96,8 +95,7 @@ def generate_launch_description():
         name="planner_server",
         output="screen",
         parameters=common_nav_params,
-        arguments=["--ros-args", "--log-level", "info"],
-        remappings=remappings,
+        remappings=nav_remappings,
     )
 
     controller_server = Node(
@@ -106,8 +104,7 @@ def generate_launch_description():
         name="controller_server",
         output="screen",
         parameters=common_nav_params,
-        arguments=["--ros-args", "--log-level", "info"],
-        remappings=remappings,
+        remappings=cmd_vel_raw_remap,
     )
 
     behavior_server = Node(
@@ -116,8 +113,7 @@ def generate_launch_description():
         name="behavior_server",
         output="screen",
         parameters=common_nav_params,
-        arguments=["--ros-args", "--log-level", "info"],
-        remappings=remappings,
+        remappings=cmd_vel_raw_remap,
     )
 
     bt_navigator = Node(
@@ -126,8 +122,29 @@ def generate_launch_description():
         name="bt_navigator",
         output="screen",
         parameters=common_nav_params,
-        arguments=["--ros-args", "--log-level", "info"],
-        remappings=remappings,
+        remappings=nav_remappings,
+    )
+
+    velocity_smoother = Node(
+        package="nav2_velocity_smoother",
+        executable="velocity_smoother",
+        name="velocity_smoother",
+        output="screen",
+        parameters=common_nav_params,
+        remappings=[
+            ("cmd_vel", "/cmd_vel_nav_raw"),
+            ("cmd_vel_smoothed", "/cmd_vel_nav_pre_collision"),
+            ("odom", "/odometry/filtered/local"),
+        ],
+    )
+
+    collision_monitor = Node(
+        package="nav2_collision_monitor",
+        executable="collision_monitor",
+        name="collision_monitor",
+        output="screen",
+        parameters=common_nav_params,
+        remappings=[("/tf", "tf"), ("/tf_static", "tf_static")],
     )
 
     lifecycle_manager = Node(
@@ -135,30 +152,37 @@ def generate_launch_description():
         executable="lifecycle_manager",
         name="lifecycle_manager_navigation",
         output="screen",
-        arguments=["--ros-args", "--log-level", "info"],
         parameters=[
             {"use_sim_time": use_sim_time},
             {"autostart": autostart},
-            {"node_names": [
-                "controller_server",
-                "planner_server",
-                "behavior_server",
-                "bt_navigator",
-            ]},
+            {
+                "node_names": [
+                    "controller_server",
+                    "planner_server",
+                    "behavior_server",
+                    "bt_navigator",
+                    "velocity_smoother",
+                    "collision_monitor",
+                ]
+            },
         ],
     )
 
-    mission_orchestrator = Node(
+    supervisor = Node(
         package="p3at_bringup",
-        executable="mission_orchestrator",
-        name="mission_orchestrator",
+        executable="part2_supervisor",
+        name="part2_supervisor",
         output="screen",
         parameters=[
-            {"use_sim_time": use_sim_time},
-            {"waypoints_file": waypoints_file},
-            {"policy_file": policy_file},
-            {"autostart": autostart},
-            {"require_safety_topics": False},
+            {
+                "use_sim_time": use_sim_time,
+                "waypoints_file": waypoints_file,
+                "policy_file": policy_file,
+                "autostart": autostart,
+                "require_safety_topics": require_safety_topics,
+                "run_id": run_id,
+                "artifacts_root": artifacts_root,
+            }
         ],
     )
 
@@ -168,9 +192,12 @@ def generate_launch_description():
         name="path_recorder",
         output="screen",
         parameters=[
-            {"use_sim_time": use_sim_time},
-            {"odom_topic": "/odometry/filtered/global"},
-            {"output_csv": os.path.join(os.getcwd(), "part2_driven_path.csv")},
+            {
+                "use_sim_time": use_sim_time,
+                "odom_topic": "/odometry/filtered/global",
+                "path_topic": "/driven_path",
+                "output_csv": PathJoinSubstitution([artifacts_root, "summary", "path.csv"]),
+            }
         ],
     )
 
@@ -191,58 +218,58 @@ def generate_launch_description():
             "record",
             "/tf",
             "/tf_static",
-            "/clock",
-            "/odom",
             "/odometry/filtered/local",
             "/odometry/filtered/global",
-            "/odometry/gps",
             "/fix",
-            "/gps/filtered",
-            "/mission/state",
-            "/mission/event",
-            "/mission/gps_health",
-            "/mission/current_waypoint",
             "/scan",
-            "/imu",
+            "/imu/data",
             "/cmd_vel",
-            "/camera/image",
-            "/camera/camera_info",
+            "/cmd_vel_nav",
+            "/cmd_vel_manual",
+            "/mission/navigation",
+            "/mission/vision",
+            "/mission/safety",
+            "/driven_path",
+            "/camera/camera/color/image_raw",
+            "/camera/camera/color/camera_info",
+            "/camera/camera/depth/image_rect_raw",
             "-o",
-            "part2_demo_run",
+            PathJoinSubstitution([artifacts_root, "bags", "part2_demo_run"]),
         ],
         output="screen",
         condition=IfCondition(record),
     )
 
-    cleanup = ExecuteProcess(
-        cmd=["bash", "-lc", cleanup_command],
-        output="screen",
+    return LaunchDescription(
+        [
+            DeclareLaunchArgument("use_sim_time", default_value="false"),
+            DeclareLaunchArgument("autostart", default_value="true"),
+            DeclareLaunchArgument("record", default_value="false"),
+            DeclareLaunchArgument("rviz", default_value="false"),
+            DeclareLaunchArgument("waypoints_file", default_value=default_waypoints),
+            DeclareLaunchArgument("policy_file", default_value=default_policy),
+            DeclareLaunchArgument("run_id", default_value=run_id_default),
+            DeclareLaunchArgument("artifacts_root", default_value=str(Path(cwd) / "artifacts" / "part2_runs" / run_id_default)),
+            DeclareLaunchArgument("require_safety_topics", default_value="true"),
+            TimerAction(
+                period=1.5,
+                actions=[
+                    ekf_local,
+                    navsat_transform,
+                    ekf_global,
+                    gps_health_monitor,
+                    planner_server,
+                    controller_server,
+                    behavior_server,
+                    bt_navigator,
+                    velocity_smoother,
+                    collision_monitor,
+                    lifecycle_manager,
+                    supervisor,
+                    path_recorder,
+                    rviz_node,
+                    bag_record,
+                ],
+            ),
+        ]
     )
-
-    return LaunchDescription([
-        DeclareLaunchArgument("use_sim_time", default_value="true", description="Use simulation clock."),
-        DeclareLaunchArgument("autostart", default_value="true", description="Autostart Nav2 lifecycle nodes."),
-        DeclareLaunchArgument("record", default_value="false", description="Record a rosbag2 session."),
-        DeclareLaunchArgument("rviz", default_value="false", description="Launch RViz for navigation."),
-        DeclareLaunchArgument("waypoints_file", default_value=default_waypoints, description="GPS mission waypoint YAML."),
-        DeclareLaunchArgument("policy_file", default_value=default_policy, description="Mission policy YAML."),
-        cleanup,
-        TimerAction(
-            period=1.5,
-            actions=[
-                ekf_local,
-                navsat_transform,
-                ekf_global,
-                gps_health_monitor,
-                planner_server,
-                controller_server,
-                behavior_server,
-                bt_navigator,
-                lifecycle_manager,
-                mission_orchestrator,
-                path_recorder,
-                rviz_node,
-                bag_record,
-            ],
-        ),
-    ])

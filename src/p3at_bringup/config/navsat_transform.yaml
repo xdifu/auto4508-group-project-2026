@@ -1,6 +1,6 @@
 navsat_transform:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: false
     frequency: 20.0
     delay: 0.0
     magnetic_declination_radians: -0.0314

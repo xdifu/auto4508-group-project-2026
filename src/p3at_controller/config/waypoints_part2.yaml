@@ -54,5 +54,4 @@ development:
   allow_auto_without_joy: false
   fake_perception: true
 
-output:
-  base_dir: /home/nyx/auto4508_group_ws/part2_runs
+output: {}

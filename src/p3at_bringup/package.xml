@@ -11,14 +11,26 @@
 
   <exec_depend>action_msgs</exec_depend>
   <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>aria_node</exec_depend>
+  <exec_depend>auto4508_project</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>joy</exec_depend>
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
+  <exec_depend>nav2_bt_navigator</exec_depend>
+  <exec_depend>nav2_collision_monitor</exec_depend>
   <exec_depend>nav2_bringup</exec_depend>
+  <exec_depend>nav2_controller</exec_depend>
+  <exec_depend>nav2_map_server</exec_depend>
   <exec_depend>nav2_msgs</exec_depend>
+  <exec_depend>nav2_planner</exec_depend>
+  <exec_depend>nav2_velocity_smoother</exec_depend>
   <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>nmea_navsat_driver</exec_depend>
   <exec_depend>p3at_description</exec_depend>
   <exec_depend>p3at_nav_plugins</exec_depend>
+  <exec_depend>p3at_vision</exec_depend>
+  <exec_depend>phidgets_spatial</exec_depend>
   <exec_depend>python3-yaml</exec_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>robot_localization</exec_depend>
@@ -29,8 +41,10 @@
   <exec_depend>rosgraph_msgs</exec_depend>
   <exec_depend>rviz2</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>sick_scan_xd</exec_depend>
   <exec_depend>slam_toolbox</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <exec_depend>teleop_twist_joy</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>tf_transformations</exec_depend>
   <exec_depend>xacro</exec_depend>

@@ -1,136 +1,255 @@
+import json
+import os
+from html import escape
+from pathlib import Path
+from typing import Dict, List
+
+import cv2
+import numpy as np
 import rclpy
+from nav_msgs.msg import Path as PathMsg
 from rclpy.node import Node
 from std_msgs.msg import String
-import json
-from datetime import datetime
-import os
+
 
 class MissionLoggerNode(Node):
-    def __init__(self):
-        super().__init__('mission_logger')
-        
-        # 1. 创建日志目录
-        self.start_time = datetime.now()
-        self.run_id = self.start_time.strftime("run_%Y%m%d_%H%M%S")
-        self.log_dir = os.path.expanduser(f"~/AUTO4508_Logs/{self.run_id}")
-        os.makedirs(self.log_dir, exist_ok=True)
-        self.get_logger().info(f"📁 Logger Started. Data will be saved to: {self.log_dir}")
+    def __init__(self) -> None:
+        super().__init__("logger_node")
 
-        # 2. 核心内存数据库
-        self.logs = [] 
+        self.declare_parameter("run_id", "part2_run")
+        self.declare_parameter("artifacts_root", str(Path.cwd() / "artifacts" / "part2_runs" / "part2_run"))
+        self.declare_parameter("navigation_topic", "/mission/navigation")
+        self.declare_parameter("vision_topic", "/mission/vision")
+        self.declare_parameter("safety_topic", "/mission/safety")
+        self.declare_parameter("path_topic", "/driven_path")
 
-        # 3. 订阅话题
-        self.create_subscription(String, '/mission/navigation', self.nav_cb, 10)
-        self.create_subscription(String, '/mission/vision', self.vision_cb, 10)
-        self.create_subscription(String, '/mission/safety', self.safety_cb, 10)
+        self.run_id = str(self.get_parameter("run_id").value)
+        self.artifacts_root = Path(str(self.get_parameter("artifacts_root").value)).expanduser()
+        if not self.artifacts_root.is_absolute():
+            self.artifacts_root = Path.cwd() / self.artifacts_root
+        self.logs_dir = self.artifacts_root / "logs"
+        self.summary_dir = self.artifacts_root / "summary"
+        self.map_dir = self.artifacts_root / "map"
+        self.logs_dir.mkdir(parents=True, exist_ok=True)
+        self.summary_dir.mkdir(parents=True, exist_ok=True)
+        self.map_dir.mkdir(parents=True, exist_ok=True)
 
-    # --- 统一的 JSON 解析与记录器 ---
-    def parse_and_record(self, category, msg_data):
+        self.events: List[Dict] = []
+        self.nav_events: List[Dict] = []
+        self.vision_events: List[Dict] = []
+        self.safety_events: List[Dict] = []
+        self.waypoints: Dict[str, Dict] = {}
+        self.path_points: List[tuple[float, float]] = []
+        self.path_csv = self.summary_dir / "path.csv"
+
+        self.create_subscription(String, str(self.get_parameter("navigation_topic").value), self.nav_cb, 20)
+        self.create_subscription(String, str(self.get_parameter("vision_topic").value), self.vision_cb, 20)
+        self.create_subscription(String, str(self.get_parameter("safety_topic").value), self.safety_cb, 20)
+        self.create_subscription(PathMsg, str(self.get_parameter("path_topic").value), self.path_cb, 10)
+
+        self.write_timer = self.create_timer(2.0, self.generate_outputs)
+        self.get_logger().info(f"Logger writing artifacts to {self.artifacts_root}")
+
+    def parse_json(self, payload: str) -> Dict:
         try:
-            data = json.loads(msg_data)
-            # 加入精确的时间戳
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-            log_entry = {
-                "timestamp": timestamp, 
-                "category": category, 
-                "data": data
-            }
-            self.logs.append(log_entry)
-            self.get_logger().info(f"[{category}] Event logged at {timestamp}")
+            data = json.loads(payload)
+            return data if isinstance(data, dict) else {}
         except json.JSONDecodeError:
-            self.get_logger().error(f"Invalid JSON received on {category}")
+            return {}
 
-    # --- 频道回调 ---
-    def nav_cb(self, msg): self.parse_and_record("NAV", msg.data)
-    def vision_cb(self, msg): self.parse_and_record("VISION", msg.data)
-    def safety_cb(self, msg): self.parse_and_record("SAFETY", msg.data)
+    def record_event(self, category: str, data: Dict) -> None:
+        entry = {
+            "ts": float(data.get("ts", self.get_clock().now().nanoseconds / 1e9)),
+            "category": category,
+            "data": data,
+        }
+        self.events.append(entry)
 
-    # ==========================================
-    # 终极奥义：退出时生成 JSON 和双版本 HTML
-    # ==========================================
-    def generate_outputs(self):
-        end_time = datetime.now()
-        duration = (end_time - self.start_time).total_seconds()
-        
-        # ----------------------------------
-        # 1. 导出最核心的 JSON 原始文件
-        # ----------------------------------
-        json_path = os.path.join(self.log_dir, "mission_data.json")
-        with open(json_path, "w") as f:
-            json.dump(self.logs, f, indent=4, ensure_ascii=False)
+    def ensure_waypoint(self, wp_id: str) -> Dict:
+        return self.waypoints.setdefault(
+            wp_id,
+            {
+                "navigation": [],
+                "vision": None,
+                "verified": False,
+                "failed": False,
+            },
+        )
 
-        # ----------------------------------
-        # 2. 统计数据 (为 Summary HTML 准备)
-        # ----------------------------------
-        nav_count = sum(1 for x in self.logs if x['category'] == 'NAV')
-        vision_count = sum(1 for x in self.logs if x['category'] == 'VISION')
-        safety_count = sum(1 for x in self.logs if x['category'] == 'SAFETY')
+    def nav_cb(self, msg: String) -> None:
+        data = self.parse_json(msg.data)
+        if not data:
+            return
+        self.nav_events.append(data)
+        self.record_event("navigation", data)
+        wp_id = str(data.get("wp_id", ""))
+        if wp_id:
+            waypoint = self.ensure_waypoint(wp_id)
+            waypoint["navigation"].append(data)
+            if data.get("phase") == "verified" and data.get("status") == "reached":
+                waypoint["verified"] = True
+            if data.get("status") == "failed":
+                waypoint["failed"] = True
 
-        # CSS 样式模板 (让网页看起来高大上)
-        css_style = """
-        <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e1e; color: #f0f0f0; padding: 20px; }
-            h1, h2 { color: #00d2ff; border-bottom: 1px solid #444; padding-bottom: 10px; }
-            .card { background: #2a2a2a; border-radius: 8px; padding: 15px; margin: 10px 0; border-left: 5px solid #00d2ff; }
-            .NAV { border-left-color: #00ff88; }
-            .VISION { border-left-color: #bb00ff; }
-            .SAFETY { border-left-color: #ff3333; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th, td { padding: 12px; text-align: left; border-bottom: 1px solid #444; }
-            th { background-color: #333; }
-            .timestamp { color: #888; font-family: monospace; }
-        </style>
-        """
+    def vision_cb(self, msg: String) -> None:
+        data = self.parse_json(msg.data)
+        if not data:
+            return
+        self.vision_events.append(data)
+        self.record_event("vision", data)
+        wp_id = str(data.get("wp_id", ""))
+        if wp_id:
+            waypoint = self.ensure_waypoint(wp_id)
+            waypoint["vision"] = data
 
-        # ----------------------------------
-        # 3. 生成 Summary HTML (总结大屏)
-        # ----------------------------------
-        summary_html = f"""
-        <html><head><title>Mission Summary</title>{css_style}</head><body>
-            <h1>AUTO4508 - Mission Summary Dashboard</h1>
-            <p class="timestamp">Run ID: {self.run_id} | Total Duration: <b>{duration:.1f} sec</b></p>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div class="card NAV" style="flex: 1;"><h2>{nav_count}</h2><p>Waypoints Reached</p></div>
-                <div class="card VISION" style="flex: 1;"><h2>{vision_count}</h2><p>Objects Detected</p></div>
-                <div class="card SAFETY" style="flex: 1;"><h2>{safety_count}</h2><p>Safety Interventions</p></div>
-            </div>
-            <p style="margin-top:30px;"><a href="detailed_report.html" style="color:#00d2ff;">View Detailed Log &rarr;</a></p>
-        </body></html>
-        """
-        with open(os.path.join(self.log_dir, "summary_dashboard.html"), "w", encoding='utf-8') as f:
-            f.write(summary_html)
+    def safety_cb(self, msg: String) -> None:
+        data = self.parse_json(msg.data)
+        if not data:
+            return
+        self.safety_events.append(data)
+        self.record_event("safety", data)
 
-        # ----------------------------------
-        # 4. 生成 Detailed HTML (详细时间轴)
-        # ----------------------------------
-        table_rows = ""
-        for entry in self.logs:
-            t = entry['timestamp']
-            cat = entry['category']
-            d = entry['data']
-            
-            # 将 JSON 字典美化为字符串展示
-            detail_str = "<br>".join([f"<b>{k}</b>: {v}" for k, v in d.items()])
-            
-            table_rows += f"<tr><td class='timestamp'>{t}</td><td><span class='card {cat}' style='padding:4px 8px; font-weight:bold;'>{cat}</span></td><td>{detail_str}</td></tr>"
+    def path_cb(self, msg: PathMsg) -> None:
+        self.path_points = [(float(p.pose.position.x), float(p.pose.position.y)) for p in msg.poses]
+        self.write_path_png()
 
-        detailed_html = f"""
-        <html><head><title>Detailed Log</title>{css_style}</head><body>
-            <h1>AUTO4508 - Detailed Event Log</h1>
-            <p><a href="summary_dashboard.html" style="color:#00d2ff;">&larr; Back to Summary</a></p>
+    def write_path_png(self) -> str:
+        output = self.summary_dir / "path.png"
+        canvas = np.full((600, 600, 3), 255, dtype=np.uint8)
+        if not self.path_points:
+            cv2.imwrite(str(output), canvas)
+            return str(output)
+
+        xs = [p[0] for p in self.path_points]
+        ys = [p[1] for p in self.path_points]
+        min_x, max_x = min(xs), max(xs)
+        min_y, max_y = min(ys), max(ys)
+        span_x = max(max_x - min_x, 1.0)
+        span_y = max(max_y - min_y, 1.0)
+        scale = min(520.0 / span_x, 520.0 / span_y)
+
+        def project(pt):
+            x = int(40 + (pt[0] - min_x) * scale)
+            y = int(560 - (pt[1] - min_y) * scale)
+            return x, y
+
+        for idx in range(1, len(self.path_points)):
+            cv2.line(canvas, project(self.path_points[idx - 1]), project(self.path_points[idx]), (0, 80, 220), 2)
+        cv2.putText(canvas, self.run_id, (20, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (40, 40, 40), 2)
+        cv2.imwrite(str(output), canvas)
+        return str(output)
+
+    def summary_payload(self) -> Dict:
+        return {
+            "run_id": self.run_id,
+            "navigation_events": len(self.nav_events),
+            "vision_events": len(self.vision_events),
+            "safety_events": len(self.safety_events),
+            "waypoints": self.waypoints,
+            "map_yaml": str((self.map_dir / "map.yaml")) if (self.map_dir / "map.yaml").exists() else "",
+            "map_pgm": str((self.map_dir / "map.pgm")) if (self.map_dir / "map.pgm").exists() else "",
+            "path_csv": str(self.path_csv) if self.path_csv.exists() else "",
+            "path_png": str(self.summary_dir / "path.png"),
+        }
+
+    def image_tag(self, path: str, label: str) -> str:
+        if not path:
+            return "<span>missing</span>"
+        candidate = Path(path)
+        if not candidate.exists():
+            return f"<span>missing: {escape(path)}</span>"
+        return f'<img src="{escape(str(candidate))}" alt="{escape(label)}" style="max-width: 320px; border-radius: 6px;" />'
+
+    def generate_outputs(self) -> None:
+        mission_data = self.logs_dir / "mission_data.json"
+        summary_json = self.summary_dir / "summary.json"
+        summary_html = self.summary_dir / "summary.html"
+        detailed_html = self.summary_dir / "detailed_report.html"
+
+        with mission_data.open("w", encoding="utf-8") as handle:
+            json.dump(self.events, handle, indent=2, ensure_ascii=False)
+        with summary_json.open("w", encoding="utf-8") as handle:
+            json.dump(self.summary_payload(), handle, indent=2, ensure_ascii=False)
+
+        path_png = self.write_path_png()
+        map_pgm = self.map_dir / "map.pgm"
+
+        waypoint_rows = []
+        for wp_id, payload in sorted(self.waypoints.items(), key=lambda item: item[0]):
+            vision = payload.get("vision") or {}
+            waypoint_rows.append(
+                f"""
+                <tr>
+                  <td>{escape(str(wp_id))}</td>
+                  <td>{escape('yes' if payload.get('verified') else 'no')}</td>
+                  <td>{escape(vision.get('obj_color', 'unknown'))}</td>
+                  <td>{escape(vision.get('obj_class', 'unknown'))}</td>
+                  <td>{escape(vision.get('obj_shape', 'unknown'))}</td>
+                  <td>{escape(str(vision.get('dist', '')))}</td>
+                  <td>{self.image_tag(vision.get('marker_img_path', ''), f'marker {wp_id}')}</td>
+                  <td>{self.image_tag(vision.get('img_path', ''), f'object {wp_id}')}</td>
+                  <td>{self.image_tag(vision.get('annotated_img_path', ''), f'annotated {wp_id}')}</td>
+                </tr>
+                """
+            )
+
+        summary_markup = f"""
+        <html>
+        <head>
+          <title>AUTO4508 Part 2 Summary</title>
+          <style>
+            body {{ font-family: Arial, sans-serif; margin: 24px; background: #f4f6f8; color: #20242a; }}
+            .card {{ background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }}
+            table {{ width: 100%; border-collapse: collapse; }}
+            th, td {{ border-bottom: 1px solid #e2e8f0; padding: 10px; text-align: left; vertical-align: top; }}
+            img {{ display: block; }}
+            code {{ background: #eef2f7; padding: 2px 4px; border-radius: 4px; }}
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <h1>AUTO4508 Part 2 Summary</h1>
+            <p><b>Run ID:</b> {escape(self.run_id)}</p>
+            <p><b>Navigation events:</b> {len(self.nav_events)} | <b>Vision events:</b> {len(self.vision_events)} | <b>Safety events:</b> {len(self.safety_events)}</p>
+          </div>
+          <div class="card">
+            <h2>Driven Path</h2>
+            {self.image_tag(path_png, 'path')}
+          </div>
+          <div class="card">
+            <h2>Built Map</h2>
+            {self.image_tag(str(map_pgm) if map_pgm.exists() else '', 'map')}
+          </div>
+          <div class="card">
+            <h2>Waypoint Evidence</h2>
             <table>
-                <tr><th>Timestamp</th><th>Category</th><th>Event Details</th></tr>
-                {table_rows}
+              <tr>
+                <th>WP</th><th>Verified</th><th>Color</th><th>Class</th><th>Shape</th><th>Distance (m)</th>
+                <th>Marker</th><th>Object</th><th>Annotated</th>
+              </tr>
+              {''.join(waypoint_rows)}
             </table>
+          </div>
+          <div class="card">
+            <h2>Safety Events</h2>
+            <pre>{escape(json.dumps(self.safety_events[-20:], indent=2, ensure_ascii=False))}</pre>
+          </div>
+        </body>
+        </html>
+        """
+        summary_html.write_text(summary_markup, encoding="utf-8")
+
+        detailed_markup = f"""
+        <html><head><title>Detailed Report</title></head>
+        <body>
+        <h1>Detailed Event Log</h1>
+        <pre>{escape(json.dumps(self.events, indent=2, ensure_ascii=False))}</pre>
         </body></html>
         """
-        with open(os.path.join(self.log_dir, "detailed_report.html"), "w", encoding='utf-8') as f:
-            f.write(detailed_html)
-        # 把原先的 self.get_logger().info 换成下面这句
-        print(f"✅ Mission finished. All files (JSON + HTMLs) saved to {self.log_dir}")
-        self.get_logger().info(f"✅ Mission finished. All files (JSON + HTMLs) saved to {self.log_dir}")
+        detailed_html.write_text(detailed_markup, encoding="utf-8")
 
-def main(args=None):
+
+def main(args=None) -> None:
     rclpy.init(args=args)
     node = MissionLoggerNode()
     try:
@@ -138,11 +257,11 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        node.generate_outputs()  # 退出前生成报表
+        node.generate_outputs()
         node.destroy_node()
-        # 只有在还没关闭的情况下，才调用 shutdown
         if rclpy.ok():
             rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

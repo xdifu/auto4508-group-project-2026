@@ -1,0 +1,12 @@
+/**:
+  ros__parameters:
+    camera:
+      i_pipeline_type: RGBD
+      i_nn_type: none
+      i_rs_compat: true
+      i_publish_tf_from_calibration: false
+    pipeline_gen:
+      i_enable_sync: true
+      i_enable_imu: false
+    pointcloud:
+      enable: false
