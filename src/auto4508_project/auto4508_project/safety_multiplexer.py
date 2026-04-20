@@ -53,6 +53,7 @@ class SafetyNode(Node):
         self.joy_connected = False
         self.last_joy_sec = 0.0
         self.clear_hold_start: Optional[float] = None
+        self.estop_clear_armed = False
         self.prev_buttons = []
         self.nav_twist = zero_twist()
         self.manual_twist = zero_twist()
@@ -96,6 +97,7 @@ class SafetyNode(Node):
         buttons = list(msg.buttons)
         rising_auto = self._rising(buttons, self.btn_auto)
         rising_manual = self._rising(buttons, self.btn_manual)
+        rising_estop = self._rising(buttons, self.btn_estop)
         square_pressed = self._pressed(buttons, self.btn_estop)
 
         if rising_auto and self.mode != "AUTO":
@@ -110,18 +112,23 @@ class SafetyNode(Node):
         if self.deadman_pressed != previous_deadman:
             self.publish_event("deadman_change")
 
-        if square_pressed:
-            if not self.estop:
-                self.estop = True
+        if rising_estop and not self.estop:
+            self.estop = True
+            self.clear_hold_start = None
+            self.estop_clear_armed = False
+            self.publish_event("estop_change")
+        elif self.estop:
+            if not square_pressed:
                 self.clear_hold_start = None
-                self.publish_event("estop_change")
-            else:
+                self.estop_clear_armed = True
+            elif self.estop_clear_armed:
                 if (not self.deadman_pressed) and self._speed(self.last_cmd) < 0.02:
                     if self.clear_hold_start is None:
                         self.clear_hold_start = now
                     elif now - self.clear_hold_start >= self.estop_clear_hold_sec:
                         self.estop = False
                         self.clear_hold_start = None
+                        self.estop_clear_armed = False
                         self.publish_event("estop_change")
                 else:
                     self.clear_hold_start = None

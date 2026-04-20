@@ -102,6 +102,9 @@ class Part2Supervisor(Node):
         self.current_sequence_goal_index = 0
         self.current_goal_sent = False
         self.current_goal_handle = None
+        self.current_goal_token: Optional[int] = None
+        self.canceled_goal_token: Optional[int] = None
+        self.goal_request_seq = 0
         self.goal_send_future = None
         self.goal_result_future = None
         self.goal_sent_at_sec = 0.0
@@ -445,6 +448,8 @@ class Part2Supervisor(Node):
         self.goal_failed = False
         self.goal_succeeded = False
         self.goal_status_code = GoalStatus.STATUS_UNKNOWN
+        self.current_goal_handle = None
+        self.current_goal_token = None
         return self._dispatch_next_goal()
 
     def _dispatch_next_goal(self) -> bool:
@@ -456,54 +461,75 @@ class Part2Supervisor(Node):
         goal_msg.pose = self.current_sequence[self.current_sequence_goal_index]
         self.goal_sent_at_sec = self._now_sec()
         self.current_goal_sent = True
+        self.goal_request_seq += 1
+        goal_token = self.goal_request_seq
+        self.current_goal_token = goal_token
         self.goal_send_future = self.action_client.send_goal_async(goal_msg, feedback_callback=self._feedback_cb)
-        self.goal_send_future.add_done_callback(self._goal_response_cb)
+        self.goal_send_future.add_done_callback(lambda future, token=goal_token: self._goal_response_cb(future, token))
         return True
 
     def _feedback_cb(self, _msg) -> None:
         return
 
-    def _goal_response_cb(self, future) -> None:
+    def _goal_response_cb(self, future, goal_token: int) -> None:
+        if goal_token != self.current_goal_token:
+            return
         try:
             goal_handle = future.result()
         except Exception as exc:  # noqa: BLE001
             self.goal_failed = True
             self.current_goal_sent = False
+            self.current_goal_token = None
             self._publish_event("goal_send_failed", {"error": str(exc)})
             return
         if not goal_handle.accepted:
             self.goal_failed = True
             self.current_goal_sent = False
+            self.current_goal_token = None
             self._publish_event("goal_rejected", {"index": self.current_sequence_goal_index})
             return
         self.current_goal_handle = goal_handle
         self.goal_result_future = goal_handle.get_result_async()
-        self.goal_result_future.add_done_callback(self._goal_result_cb)
+        self.goal_result_future.add_done_callback(lambda future, token=goal_token: self._goal_result_cb(future, token))
 
-    def _goal_result_cb(self, future) -> None:
-        self.current_goal_sent = False
+    def _goal_result_cb(self, future, goal_token: int) -> None:
+        is_current_goal = goal_token == self.current_goal_token
+        is_canceled_goal = goal_token == self.canceled_goal_token
+        if not is_current_goal and not is_canceled_goal:
+            return
+        if is_current_goal:
+            self.current_goal_sent = False
         try:
             wrapped = future.result()
         except Exception as exc:  # noqa: BLE001
+            if is_canceled_goal:
+                self.goal_cancel_requested = False
+                self.canceled_goal_token = None
+                return
             self.goal_failed = True
+            self.current_goal_token = None
             self._publish_event("goal_result_failed", {"error": str(exc)})
             return
-        self.goal_status_code = int(wrapped.status)
-        if self.goal_status_code == GoalStatus.STATUS_SUCCEEDED:
+        if is_current_goal:
+            self.goal_status_code = int(wrapped.status)
+        status_code = int(wrapped.status)
+        if status_code == GoalStatus.STATUS_SUCCEEDED and is_current_goal:
             self.goal_succeeded = True
-        elif self.goal_cancel_requested and self.goal_status_code == GoalStatus.STATUS_CANCELED:
+        elif status_code == GoalStatus.STATUS_CANCELED and is_canceled_goal:
             self.goal_cancel_requested = False
-            self.goal_succeeded = True
-        else:
+            self.canceled_goal_token = None
+        elif is_current_goal:
             self.goal_failed = True
 
     def _cancel_goal(self) -> None:
         if self.current_goal_handle is None:
             return
         self.goal_cancel_requested = True
+        self.canceled_goal_token = self.current_goal_token
         cancel_future = self.current_goal_handle.cancel_goal_async()
         cancel_future.add_done_callback(lambda _f: None)
         self.current_goal_handle = None
+        self.current_goal_token = None
 
     def _distance_to_waypoint(self) -> Optional[float]:
         wp = self._current_waypoint()
@@ -694,6 +720,7 @@ class Part2Supervisor(Node):
             if self.goal_succeeded:
                 self.goal_succeeded = False
                 self.current_goal_handle = None
+                self.current_goal_token = None
                 self.current_sequence_goal_index += 1
                 if self.current_sequence_goal_index < len(self.current_sequence):
                     self._dispatch_next_goal()

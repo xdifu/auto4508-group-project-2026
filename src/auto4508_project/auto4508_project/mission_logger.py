@@ -158,7 +158,8 @@ class MissionLoggerNode(Node):
         candidate = Path(path)
         if not candidate.exists():
             return f"<span>missing: {escape(path)}</span>"
-        return f'<img src="{escape(str(candidate))}" alt="{escape(label)}" style="max-width: 320px; border-radius: 6px;" />'
+        relative_src = os.path.relpath(candidate, start=self.summary_dir).replace(os.sep, "/")
+        return f'<img src="{escape(relative_src)}" alt="{escape(label)}" style="max-width: 320px; border-radius: 6px;" />'
 
     def generate_outputs(self) -> None:
         mission_data = self.logs_dir / "mission_data.json"
