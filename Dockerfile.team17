@@ -23,6 +23,8 @@ RUN apt-get update && \
       git \
       build-essential \
       cmake \
+      iproute2 \
+      libcurl4-openssl-dev \
       python3-colcon-common-extensions \
       python3-opencv \
       ros-$ROS_DISTRO-angles \

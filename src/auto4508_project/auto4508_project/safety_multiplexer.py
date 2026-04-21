@@ -25,8 +25,8 @@ class SafetyNode(Node):
         self.declare_parameter("btn_auto", 0)   # X
         self.declare_parameter("btn_manual", 1)  # O
         self.declare_parameter("btn_estop", 2)   # Square
-        self.declare_parameter("deadman_axis", 5)
-        self.declare_parameter("deadman_axis_threshold", 0.0)
+        self.declare_parameter("deadman_axis", 4)
+        self.declare_parameter("deadman_axis_threshold", 0.5)
         self.declare_parameter("deadman_axis_inverted", True)
         self.declare_parameter("joy_timeout_sec", 0.25)
         self.declare_parameter("heartbeat_hz", 2.0)

@@ -50,11 +50,17 @@
 
 ## 默认硬件假设
 
+- 最终演示 Pioneer IP：`192.168.2.213`
 - Pioneer 底盘串口：`/dev/ttyUSB0`
 - GPS 串口：`/dev/ttyACM0`
 - GPS 波特率：`9600`
-- LiDAR：`sick_scan_xd` + `sick_tim_7xx.launch.py`
-- LiDAR IP：`192.168.0.1`
+- LiDAR 默认驱动：`lakibeam1`
+- LiDAR 默认模式：Lakibeam RJ45 UDP
+- LiDAR Host IP（机器人网卡监听地址）：`192.168.198.50`
+- LiDAR Sensor IP：`192.168.198.2`
+- LiDAR UDP Port：`2368`
+- LiDAR topic / frame：`/scan` + `laser_frame`
+- SICK 回退：`--lidar-driver sick -- --lidar_hostname:=192.168.0.1`
 - IMU：`phidgets_spatial`
 - 相机：OAK-D，使用 `depthai_ros_v3`
 - 手柄：DualShock 类蓝牙手柄
@@ -67,6 +73,26 @@
 ./start_robot_docker.sh --mode real \
   --robot-port /dev/ttyUSB1 \
   --gps-port /dev/ttyUSB0 \
+  --lidar-driver lakibeam \
+  --lidar-host-ip 192.168.198.50 \
+  --lidar-sensor-ip 192.168.198.2 \
+  --lidar-port 2368 \
+  --lidar-frame-id laser_frame
+```
+
+- 如需回退到 SICK：
+
+```bash
+./start_robot_docker.sh --mode real \
+  --lidar-driver sick \
+  -- --lidar_hostname:=192.168.0.1
+```
+
+- 如需自定义外部 LiDAR bringup：
+
+```bash
+./start_robot_docker.sh --mode real \
+  --lidar-driver custom \
   -- --lidar_bringup_package:=<pkg> --lidar_bringup_launch:=<launch.py>
 ```
 
@@ -74,4 +100,7 @@
 
 - `global_topics.yaml` 不再是当前 Part 2 主链的运行时配置源
 - 当前 `safety_node`、`vision_node`、`logger_node` 的参数接口以各自节点源码和 launch 文件为准
+- 当前最终演示 Pioneer 的 LiDAR 网卡实配为 `192.168.198.50/24`；若现场网卡地址变更，必须同步覆盖 `--lidar-host-ip`
+- 若需 Lakibeam 真机联调，必须先确认机器人网卡上已经配置用于接收 UDP 的 `192.168.198.50/24`，或明确改用 USB-C `192.168.8.x` 路线
+- Lakibeam 真机验收不能只看 `/scan` 存在；还必须核对 `frame_id=laser_frame`、`base_link -> laser_frame`、Nav2 costmap、collision monitor 和 supervisor 都真实吃到数据
 - 若需真机联调，请优先核对串口映射、LiDAR 型号/IP、IMU launch 名称和 OAK-D topic 是否与默认值一致

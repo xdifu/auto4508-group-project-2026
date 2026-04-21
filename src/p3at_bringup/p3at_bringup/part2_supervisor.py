@@ -16,6 +16,7 @@ from nav2_msgs.srv import SaveMap
 from nav_msgs.msg import Odometry
 from rclpy.action import ActionClient
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan, NavSatFix, NavSatStatus
 from std_msgs.msg import Bool, String
 from tf_transformations import euler_from_quaternion
@@ -141,7 +142,7 @@ class Part2Supervisor(Node):
         self.create_subscription(Bool, "/safety/deadman_pressed", self._deadman_cb, 20)
         self.create_subscription(Bool, "/safety/estop", self._estop_cb, 20)
         self.create_subscription(String, "/mission/vision", self._vision_cb, 20)
-        self.create_subscription(LaserScan, "/scan", self._scan_cb, 20)
+        self.create_subscription(LaserScan, "/scan", self._scan_cb, qos_profile_sensor_data)
 
         self.loop_timer = self.create_timer(1.0 / max(2.0, float(self.get_parameter("loop_hz").value)), self._loop)
         self.heartbeat_timer = self.create_timer(
@@ -531,6 +532,24 @@ class Part2Supervisor(Node):
         self.current_goal_handle = None
         self.current_goal_token = None
 
+    def _pause_for_safety(self, reason: str) -> None:
+        self._cancel_goal()
+        self.current_sequence = []
+        self.current_sequence_kind = "approach"
+        self.current_sequence_goal_index = 0
+        self.current_goal_sent = False
+        self.current_goal_handle = None
+        self.current_goal_token = None
+        self.goal_failed = False
+        self.goal_succeeded = False
+        self.goal_status_code = GoalStatus.STATUS_UNKNOWN
+        self.awaiting_vision = False
+        self.vision_result = None
+        self.vision_request_key = None
+        self.arrival_judge.reset()
+        self._publish_event("safety_pause", {"reason": reason, "wp_id": self._public_wp_id()})
+        self._set_state("WAITING_FOR_SAFETY")
+
     def _distance_to_waypoint(self) -> Optional[float]:
         wp = self._current_waypoint()
         if wp is None:
@@ -655,6 +674,15 @@ class Part2Supervisor(Node):
         if self.estop and self.state != "SAFE_STOP":
             self._cancel_goal()
             self._set_state("SAFE_STOP")
+            return
+
+        if (
+            self.require_safety_topics
+            and self.state not in {"INIT", "WAITING_FOR_GPS", "WAITING_FOR_SAFETY", "SAFE_STOP"}
+            and not self._is_safety_ready()
+        ):
+            reason = "automated_disabled" if not self.automated_enabled else "deadman_released"
+            self._pause_for_safety(reason)
             return
 
         if self.state == "INIT":

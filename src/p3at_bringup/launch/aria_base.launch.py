@@ -21,6 +21,8 @@ def generate_launch_description():
         executable="ariaNode",
         name="aria_node",
         output="screen",
+        respawn=True,
+        respawn_delay=2.0,
         arguments=["-rp", robot_port],
         parameters=[
             {

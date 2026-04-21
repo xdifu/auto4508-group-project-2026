@@ -5,7 +5,7 @@ ROS_DISTRO="${ROS_DISTRO:-jazzy}"
 ARIACODA_SRC_DIR="${ARIACODA_SRC_DIR:-/tmp/AriaCoda}"
 ARIACODA_PREFIX="/usr/local"
 
-sudo apt install -y build-essential git
+sudo apt install -y build-essential git iproute2
 if ! sudo apt install -y ros2-testing-apt-source; then
   echo "ros2-testing-apt-source unavailable; continuing with existing apt sources"
 fi
@@ -20,6 +20,7 @@ sudo apt remove -y \
   "ros-${ROS_DISTRO}-depthai-ros-driver" \
   "ros-${ROS_DISTRO}-depthai-ros-msgs" || true
 sudo apt install -y \
+  libcurl4-openssl-dev \
   "ros-${ROS_DISTRO}-depthai-ros-v3" \
   "ros-${ROS_DISTRO}-cv-bridge" \
   "ros-${ROS_DISTRO}-image-transport" \
@@ -51,7 +52,10 @@ sudo ldconfig
 grep -qxF "export ARIACODA_PREFIX=${ARIACODA_PREFIX}" "${HOME}/.bashrc" || echo "export ARIACODA_PREFIX=${ARIACODA_PREFIX}" >> "${HOME}/.bashrc"
 grep -qxF 'export LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH:-}' "${HOME}/.bashrc" || echo 'export LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH:-}' >> "${HOME}/.bashrc"
 
+: "${AMENT_TRACE_SETUP_FILES:=}"
+set +u
 source "/opt/ros/${ROS_DISTRO}/setup.bash"
+set -u
 ros2 pkg prefix depthai_ros_driver_v3
 ros2 pkg prefix teleop_twist_joy
 ros2 pkg prefix nav2_collision_monitor

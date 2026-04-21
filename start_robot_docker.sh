@@ -23,6 +23,11 @@ Options:
   --robot-port <path>     Serial port for Pioneer base (default: /dev/ttyUSB0)
   --gps-port <path>       Serial port for GPS (default: /dev/ttyACM0)
   --gps-baud <baud>       GPS baud rate (default: 9600)
+  --lidar-driver <name>   LiDAR driver: lakibeam, sick, or custom (default: lakibeam)
+  --lidar-host-ip <ip>    Host NIC IP used to listen for Lakibeam UDP data (default: 192.168.198.50)
+  --lidar-sensor-ip <ip>  Sensor IP / sender IP filter (default: 192.168.198.2)
+  --lidar-port <port>     Lakibeam UDP port (default: 2368)
+  --lidar-frame-id <id>   LiDAR frame ID (default: laser_frame)
   --artifacts-root <dir>  Host-side artifacts root override
   --workspace <dir>       Host repo root override
   -h, --help              Show this help
@@ -32,6 +37,7 @@ Examples:
   ./start_robot_docker.sh --mode prep
   ./start_robot_docker.sh --mode build
   ./start_robot_docker.sh --mode real --record
+  ./start_robot_docker.sh --mode real --lidar-driver sick -- --lidar_hostname:=192.168.0.1
   ./start_robot_docker.sh --mode real --image mobrob-ros2-ros2:latest
   ./start_robot_docker.sh --mode vision -- --ros-args -p launch_camera_driver:=false
 EOF
@@ -42,6 +48,14 @@ require_cmd() {
     echo "Required command not found: $1" >&2
     exit 1
   fi
+}
+
+image_has_commands() {
+  local image_name="$1"
+  shift
+  docker run --rm --entrypoint bash "$image_name" -lc \
+    "set +u; source /opt/ros/jazzy/setup.bash >/dev/null 2>&1 && $(printf 'command -v %q >/dev/null 2>&1 && ' "$@" ) true" \
+    >/dev/null 2>&1
 }
 
 shell_join() {
@@ -82,6 +96,11 @@ ENABLE_RECORD="false"
 ROBOT_PORT="/dev/ttyUSB0"
 GPS_PORT="/dev/ttyACM0"
 GPS_BAUD="9600"
+LIDAR_DRIVER="lakibeam"
+LIDAR_HOST_IP="192.168.198.50"
+LIDAR_SENSOR_IP="192.168.198.2"
+LIDAR_PORT="2368"
+LIDAR_FRAME_ID="laser_frame"
 HOST_ARTIFACTS_ROOT=""
 WORKSPACE_HOST="$REPO_ROOT"
 CONTAINER_ARTIFACTS_ROOT=""
@@ -127,6 +146,26 @@ while [[ $# -gt 0 ]]; do
       ;;
     --gps-baud)
       GPS_BAUD="$2"
+      shift 2
+      ;;
+    --lidar-driver)
+      LIDAR_DRIVER="$2"
+      shift 2
+      ;;
+    --lidar-host-ip)
+      LIDAR_HOST_IP="$2"
+      shift 2
+      ;;
+    --lidar-sensor-ip)
+      LIDAR_SENSOR_IP="$2"
+      shift 2
+      ;;
+    --lidar-port)
+      LIDAR_PORT="$2"
+      shift 2
+      ;;
+    --lidar-frame-id)
+      LIDAR_FRAME_ID="$2"
       shift 2
       ;;
     --artifacts-root)
@@ -181,13 +220,24 @@ if [[ -z "$IMAGE_NAME" ]]; then
   fi
 fi
 
+if [[ "$MODE" == "real" ]]; then
+  if ! image_has_commands "$IMAGE_NAME" xacro ip; then
+    cat >&2 <<EOF
+Selected image '$IMAGE_NAME' is missing required real-run dependencies (xacro and/or ip).
+Rebuild the runtime image from Dockerfile.team17, then retry:
+  docker build -t auto4508_team17_env:latest -f Dockerfile.team17 .
+EOF
+    exit 1
+  fi
+fi
+
 EXTRA_ARGS_STR=""
 if [[ ${#EXTRA_ARGS[@]} -gt 0 ]]; then
   EXTRA_ARGS_STR="$(shell_join "${EXTRA_ARGS[@]}")"
 fi
 
-COMMON_ENV='source /opt/ros/jazzy/setup.bash'
-WORKSPACE_ENV='if [ -f /workspace/install/setup.bash ]; then source /workspace/install/setup.bash; fi'
+COMMON_ENV='set +u; source /opt/ros/jazzy/setup.bash'
+WORKSPACE_ENV='if [ -f /workspace/install/setup.bash ]; then set +u; source /workspace/install/setup.bash; fi'
 EXPORT_ENV="export ARIACODA_PREFIX=\${ARIACODA_PREFIX:-/usr/local}; export AUTO4508_TEAM_ID=$(printf '%q' "$TEAM_ID"); export AUTO4508_RUN_ID=$(printf '%q' "$RUN_ID"); export AUTO4508_ARTIFACTS_ROOT=$(printf '%q' "$CONTAINER_ARTIFACTS_ROOT")"
 
 case "$MODE" in
@@ -205,7 +255,7 @@ case "$MODE" in
     CMD="${COMMON_ENV}; cd /workspace; ${EXPORT_ENV}; colcon build --symlink-install ${EXTRA_ARGS_STR}"
     ;;
   real)
-    CMD="${COMMON_ENV}; cd /workspace; ${WORKSPACE_ENV}; ${EXPORT_ENV}; ros2 launch p3at_bringup real.launch.py run_id:=${RUN_ID} artifacts_root:=${CONTAINER_ARTIFACTS_ROOT} rviz:=${ENABLE_RVIZ} record:=${ENABLE_RECORD} robot_port:=${ROBOT_PORT} gps_port:=${GPS_PORT} gps_baud:=${GPS_BAUD} ${EXTRA_ARGS_STR}"
+    CMD="${COMMON_ENV}; cd /workspace; ${WORKSPACE_ENV}; ${EXPORT_ENV}; ros2 launch p3at_bringup real.launch.py run_id:=${RUN_ID} artifacts_root:=${CONTAINER_ARTIFACTS_ROOT} rviz:=${ENABLE_RVIZ} record:=${ENABLE_RECORD} robot_port:=${ROBOT_PORT} gps_port:=${GPS_PORT} gps_baud:=${GPS_BAUD} lidar_driver:=${LIDAR_DRIVER} lidar_host_ip:=${LIDAR_HOST_IP} lidar_sensor_ip:=${LIDAR_SENSOR_IP} lidar_udp_port:=${LIDAR_PORT} lidar_frame_id:=${LIDAR_FRAME_ID} ${EXTRA_ARGS_STR}"
     ;;
   vision)
     CMD="${COMMON_ENV}; cd /workspace; ${WORKSPACE_ENV}; ${EXPORT_ENV}; ros2 launch p3at_vision vision.launch.py run_id:=${RUN_ID} save_dir:=${CONTAINER_ARTIFACTS_ROOT}/photos ${EXTRA_ARGS_STR}"
@@ -229,6 +279,7 @@ DOCKER_ARGS=(
   -w /workspace
   -e TZ="${TZ:-Australia/Perth}"
   -e ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-0}"
+  -e ROS_AUTOMATIC_DISCOVERY_RANGE="${ROS_AUTOMATIC_DISCOVERY_RANGE:-LOCALHOST}"
   -e AUTO4508_TEAM_ID="$TEAM_ID"
   -e AUTO4508_RUN_ID="$RUN_ID"
   -e AUTO4508_ARTIFACTS_ROOT="$CONTAINER_ARTIFACTS_ROOT"
