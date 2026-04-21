@@ -21,8 +21,11 @@ class GPSHealthMonitor(Node):
         self.declare_parameter("input_topic", "/fix")
         self.declare_parameter("output_topic", "/mission/gps_health")
         self.declare_parameter("health_debug_topic", "/mission/gps_health_detail")
-        self.declare_parameter("warn_std_m", 2.0)
-        self.declare_parameter("max_std_m", 3.0)
+        # Real-field GNSS covariance can momentarily exceed lab thresholds.
+        # Keep LOST/FATAL for true outages, but avoid over-triggering FATAL on
+        # moderate covariance noise.
+        self.declare_parameter("warn_std_m", 4.5)
+        self.declare_parameter("max_std_m", 8.0)
         self.declare_parameter("short_loss_seconds", 5.0)
         self.declare_parameter("hard_loss_seconds", 30.0)
         self.declare_parameter("jump_threshold_m", 5.0)

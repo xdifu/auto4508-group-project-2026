@@ -6,7 +6,8 @@ ekf_local_node:
     two_d_mode: true
     publish_tf: true
     publish_acceleration: false
-    transform_time_offset: 0.0
+    predict_to_current_time: true
+    transform_time_offset: 0.5
     transform_timeout: 0.1
     map_frame: map
     odom_frame: odom

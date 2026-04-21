@@ -26,8 +26,10 @@ class SafetyNode(Node):
         self.declare_parameter("btn_manual", 1)  # O
         self.declare_parameter("btn_estop", 2)   # Square
         self.declare_parameter("deadman_axis", 4)
+        self.declare_parameter("deadman_axis_secondary", 5)
         self.declare_parameter("deadman_axis_threshold", 0.5)
         self.declare_parameter("deadman_axis_inverted", True)
+        self.declare_parameter("deadman_required_in_manual", False)
         self.declare_parameter("joy_timeout_sec", 0.25)
         self.declare_parameter("heartbeat_hz", 2.0)
         self.declare_parameter("control_hz", 20.0)
@@ -42,8 +44,10 @@ class SafetyNode(Node):
         self.btn_manual = int(self.get_parameter("btn_manual").value)
         self.btn_estop = int(self.get_parameter("btn_estop").value)
         self.deadman_axis = int(self.get_parameter("deadman_axis").value)
+        self.deadman_axis_secondary = int(self.get_parameter("deadman_axis_secondary").value)
         self.deadman_axis_threshold = float(self.get_parameter("deadman_axis_threshold").value)
         self.deadman_axis_inverted = bool(self.get_parameter("deadman_axis_inverted").value)
+        self.deadman_required_in_manual = bool(self.get_parameter("deadman_required_in_manual").value)
         self.joy_timeout_sec = float(self.get_parameter("joy_timeout_sec").value)
         self.estop_clear_hold_sec = float(self.get_parameter("estop_clear_hold_sec").value)
 
@@ -148,11 +152,16 @@ class SafetyNode(Node):
         current = buttons[index] if 0 <= index < len(buttons) else 0
         return current == 1 and prev == 0
 
-    def _deadman_from_axes(self, joy_msg: Joy) -> bool:
-        if 0 <= self.deadman_axis < len(joy_msg.axes):
-            value = float(joy_msg.axes[self.deadman_axis])
+    def _axis_is_pressed(self, joy_msg: Joy, axis_index: int) -> bool:
+        if 0 <= axis_index < len(joy_msg.axes):
+            value = float(joy_msg.axes[axis_index])
             return value < self.deadman_axis_threshold if self.deadman_axis_inverted else value > self.deadman_axis_threshold
         return False
+
+    def _deadman_from_axes(self, joy_msg: Joy) -> bool:
+        primary_pressed = self._axis_is_pressed(joy_msg, self.deadman_axis)
+        secondary_pressed = self._axis_is_pressed(joy_msg, self.deadman_axis_secondary)
+        return primary_pressed or secondary_pressed
 
     def joy_timed_out(self) -> bool:
         if self.last_joy_sec <= 0.0:
@@ -160,7 +169,11 @@ class SafetyNode(Node):
         return (self.now_sec() - self.last_joy_sec) > self.joy_timeout_sec
 
     def arbitrate(self) -> Twist:
-        if self.estop or not self.joy_connected or self.joy_timed_out() or not self.deadman_pressed:
+        if self.estop or not self.joy_connected or self.joy_timed_out():
+            return zero_twist()
+        if self.mode == "AUTO" and not self.deadman_pressed:
+            return zero_twist()
+        if self.mode == "MANUAL" and self.deadman_required_in_manual and not self.deadman_pressed:
             return zero_twist()
         return self.nav_twist if self.mode == "AUTO" else self.manual_twist
 

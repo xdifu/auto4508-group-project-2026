@@ -52,6 +52,7 @@ setup(
             "part2_supervisor = p3at_bringup.part2_supervisor:main",
             "odom_sanitizer = p3at_bringup.odom_sanitizer:main",
             "path_recorder = p3at_bringup.path_recorder:main",
+            "scan_sanitizer = p3at_bringup.scan_sanitizer:main",
         ],
     },
 )

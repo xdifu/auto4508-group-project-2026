@@ -43,7 +43,7 @@ class Part2Supervisor(Node):
         self.declare_parameter("state_pub_hz", 2.0)
         self.declare_parameter("goal_accept_timeout_sec", 3.0)
         self.declare_parameter("goal_execution_timeout_sec", 90.0)
-        self.declare_parameter("nav_retry_budget", 2)
+        self.declare_parameter("nav_retry_budget", 20)
         self.declare_parameter("inspection_retry_budget", 1)
         self.declare_parameter("pass_side_retry_budget", 1)
         self.declare_parameter("arrival_min_standoff_m", 1.0)
@@ -692,7 +692,9 @@ class Part2Supervisor(Node):
         if self.state == "WAITING_FOR_GPS":
             if not self._ensure_plan():
                 return
-            if self.gps_health != "HEALTHY" or not self.global_odom_ready:
+            # Field GPS can be noisy at startup; allow HEALTHY/DEGRADED and only
+            # block hard-loss states.
+            if self.gps_health in {"FATAL", "LOST"} or not self.global_odom_ready:
                 return
             self._set_state("WAITING_FOR_SAFETY")
             return

@@ -89,6 +89,19 @@ def generate_launch_description():
         parameters=[{"use_sim_time": use_sim_time}],
     )
 
+    scan_sanitizer = Node(
+        package="p3at_bringup",
+        executable="scan_sanitizer",
+        name="scan_sanitizer",
+        output="screen",
+        parameters=[
+            {
+                "input_topic": "/scan",
+                "output_topic": "/scan_nav",
+            }
+        ],
+    )
+
     planner_server = Node(
         package="nav2_planner",
         executable="planner_server",
@@ -258,6 +271,7 @@ def generate_launch_description():
                     navsat_transform,
                     ekf_global,
                     gps_health_monitor,
+                    scan_sanitizer,
                     planner_server,
                     controller_server,
                     behavior_server,

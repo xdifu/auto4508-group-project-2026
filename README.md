@@ -48,6 +48,11 @@
 ./start_robot_docker.sh --mode real
 ```
 
+## 现场部署手册
+
+- 机器人代码同步、容器管理、构建、启动、检查、GitHub 推送流程见：
+  [docs/robot_deploy_runbook_zh.md](/home/god/auto4508-group-project-2026/docs/robot_deploy_runbook_zh.md)
+
 ## 默认硬件假设
 
 - 最终演示 Pioneer IP：`192.168.2.213`

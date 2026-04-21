@@ -17,55 +17,46 @@ home:
   alt: 15.0
 
 mission_bounds:
-  - {lat: -31.9809000, lon: 115.8174500}
-  - {lat: -31.9809000, lon: 115.8180500}
-  - {lat: -31.9803500, lon: 115.8180500}
-  - {lat: -31.9803500, lon: 115.8174500}
+  - {lat: -31.9809000, lon: 115.8172000}
+  - {lat: -31.9809000, lon: 115.8179500}
+  - {lat: -31.9798000, lon: 115.8179500}
+  - {lat: -31.9798000, lon: 115.8172000}
 
 return_home: true
 
 waypoints:
   - id: WP1
-    lat: -31.9806500
-    lon: 115.8178200
+    lat: -31.9804999
+    lon: 115.8173320
     arrival_radius: 1.5
     pass_side: right
     policy: default
     photo_required: true
-    notes: "Entry waypoint."
+    notes: "Final outdoor route point 1."
 
   - id: WP2
-    lat: -31.9806100
-    lon: 115.8179400
+    lat: -31.9804058
+    lon: 115.8178087
     arrival_radius: 1.4
     pass_side: right
     policy: weave_through_cones
     photo_required: true
-    notes: "Weave segment end."
+    notes: "Final outdoor route point 2."
 
   - id: WP3
-    lat: -31.9805400
-    lon: 115.8179300
+    lat: -31.9799439
+    lon: 115.8175824
     arrival_radius: 1.5
     pass_side: right
     policy: default_marker
     photo_required: true
-    notes: ""
+    notes: "Final outdoor route point 3."
 
   - id: WP4
-    lat: -31.9805000
-    lon: 115.8178200
+    lat: -31.9801936
+    lon: 115.8173269
     arrival_radius: 1.6
     pass_side: right
     policy: default_marker
     photo_required: true
-    notes: ""
-
-  - id: WP5
-    lat: -31.9805600
-    lon: 115.8177000
-    arrival_radius: 1.5
-    pass_side: right
-    policy: default_marker
-    photo_required: true
-    notes: "Final cone before return."
+    notes: "Final outdoor route point 4."
